@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4f7cff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>KeyHub — маркетплейс цифровых товаров</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon.svg">
+<style>
+:root{--bg:#0f1420;--panel:#1a2233;--panel2:#222d45;--text:#e8ecf4;--muted:#8b96ad;--accent:#4f7cff;--green:#37c978;--red:#ff5f6d;--gold:#ffd166;--border:#2b3852}
+[data-theme="light"]{--bg:#f4f6fb;--panel:#fff;--panel2:#eef2f9;--text:#1a2233;--muted:#5c6a85;--border:#d8dfec}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;transition:background .2s,color .2s}
+button{cursor:pointer;font-family:inherit;font-size:14px}
+input,select,textarea{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;outline:none;width:100%;font-family:inherit;font-size:14px}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+a{color:var(--accent);cursor:pointer}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header.top{background:var(--panel);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.bar{display:flex;gap:10px;padding:11px 20px;align-items:center;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:var(--text);cursor:pointer;white-space:nowrap}
+.logo span{color:var(--accent)}
+.grow{flex:1}
+.navbtn{background:none;border:none;color:var(--muted);padding:8px 11px;border-radius:8px}
+.navbtn:hover{color:var(--text);background:var(--panel2)}
+.btn{background:var(--accent);color:#fff;border:none;padding:10px 15px;border-radius:8px;font-weight:600}
+.btn:hover{filter:brightness(1.1)}
+.btn.green{background:var(--green);color:#04220f}
+.btn.red{background:var(--red);color:#fff}
+.btn.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--border)}
+.btn.sm{padding:6px 11px;font-size:12.5px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.ico{position:relative;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 11px;border-radius:8px}
+.cc{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.cc.green{background:var(--green);color:#04220f}
+#installBtn{display:none;background:linear-gradient(135deg,var(--accent),var(--green));color:#fff;border:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:13px}
+#searchWrap{position:relative}
+#suggest{position:absolute;top:100%;left:0;right:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;margin-top:6px;z-index:60;max-height:340px;overflow:auto;display:none}
+#suggest.open{display:block}
+#suggest .sg{display:flex;gap:10px;align-items:center;padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--border);font-size:13px}
+#suggest .sg:hover{background:var(--panel2)}
+#suggest .sg .sic{font-size:22px}
+#suggest .sg .sinfo{flex:1}
+#suggest .sg .sprice{font-weight:700;color:var(--accent)}
+.promo-banner{background:linear-gradient(90deg,rgba(79,124,255,.15),rgba(55,201,120,.15));border:1px solid var(--accent);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:13.5px}
+.promo-banner b{color:var(--accent);font-family:Consolas,monospace;font-size:15px}
+.promo-banner .copybtn{margin-left:auto;background:var(--accent);color:#fff;border:none;padding:7px 14px;border-radius:7px;font-weight:600;font-size:13px}
+.breadcrumbs{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:12px;flex-wrap:wrap}
+.hero{text-align:center;padding:32px 0 20px}
+.hero h1{font-size:28px;margin-bottom:8px}
+.hero p{color:var(--muted);max-width:580px;margin:0 auto}
+.stats-row{display:flex;justify-content:center;gap:36px;margin-top:22px;flex-wrap:wrap}
+.stats-row .num{font-size:26px;font-weight:800;color:var(--accent)}
+.stats-row .lbl{font-size:12px;color:var(--muted);margin-top:2px}
+.stats-row .gold{color:var(--gold)}
+.viewed{margin-bottom:20px}
+.viewed h3{font-size:15px;margin-bottom:10px}
+.viewed-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
+.viewed-card{flex-shrink:0;width:150px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer}
+.viewed-card .vi{font-size:28px;text-align:center}
+.viewed-card .vt{font-size:12px;font-weight:600;margin:6px 0;line-height:1.3;height:32px;overflow:hidden}
+.viewed-card .vp{font-size:13px;font-weight:700}
+.cats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0 12px}
+.cat{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:999px;font-size:13px}
+.cat.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.toolbar h3{font-size:15px;margin-right:auto}
+.toolbar select{width:auto;min-width:150px;padding:7px 10px;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;padding-bottom:20px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;transition:.15s;cursor:pointer;position:relative}
+.card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.card .fav{position:absolute;top:8px;right:8px;background:none;border:none;font-size:17px;padding:4px}
+.cmp-chk{position:absolute;top:8px;left:8px;background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;display:flex;align-items:center;gap:5px;cursor:pointer;z-index:2;user-select:none}
+.cmp-chk input{width:auto;margin:0;cursor:pointer}
+.cmp-chk.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.card .ic{font-size:36px}
+.card h3{font-size:14px;line-height:1.4;min-height:38px}
+.meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+.price{font-size:19px;font-weight:700}
+.price .old{font-size:12px;color:var(--muted);text-decoration:line-through;margin-left:6px;font-weight:400}
+.buy{background:var(--green);color:#04220f;font-weight:700;border:none;padding:9px;border-radius:8px}
+.buy:disabled{background:#3a4358;color:var(--muted);cursor:not-allowed}
+.badge{align-self:flex-start;background:rgba(55,201,120,.15);color:var(--green);font-size:11px;padding:3px 9px;border-radius:999px;font-weight:600}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin:16px 0}
+.panel h2{font-size:19px;margin-bottom:12px}
+.panel h3{font-size:15px;margin:16px 0 10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--panel2);border-radius:10px;padding:14px}
+.stat b{font-size:22px;display:block}
+.stat span{font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:9px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{color:var(--muted);font-size:12px;background:var(--panel2)}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab{background:var(--panel2);border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:8px;font-size:13.5px}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fg{margin-bottom:12px}
+.lbl{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
+.key{background:#0b2417;border:1px solid #1d5c3a;color:#7ee2a8;padding:9px 12px;border-radius:7px;font-family:Consolas,monospace;font-size:12.5px;word-break:break-all;margin-top:6px;position:relative}
+.key button{position:absolute;right:6px;top:6px;background:rgba(55,201,120,.2);color:#7ee2a8;padding:3px 8px;border-radius:5px;font-size:11px}
+.ci{display:flex;justify-content:space-between;padding:9px 11px;background:var(--panel2);border-radius:8px;margin:5px 0;align-items:center;gap:8px;font-size:13.5px}
+.ci button{background:none;border:none;color:var(--red);font-size:15px;padding:0 4px}
+.muted{color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--green);color:#04220f;padding:12px 22px;border-radius:9px;font-weight:600;display:none;z-index:300;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:90vw;text-align:center}
+.toast.err{background:var(--red);color:#fff}
+.toast.info{background:var(--accent);color:#fff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:100}
+.modal.open{display:flex}
+.box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px;max-width:560px;width:100%;max-height:88vh;overflow:auto}
+.drawer{position:fixed;top:0;right:-420px;width:400px;max-width:94vw;height:100%;background:var(--panel);z-index:110;transition:.25s;display:flex;flex-direction:column;border-left:1px solid var(--border)}
+.drawer.open{right:0}
+.drawer header{display:flex;justify-content:space-between;padding:14px;border-bottom:1px solid var(--border)}
+.items{flex:1;overflow:auto;padding:12px 14px}
+.dfoot{padding:14px;border-top:1px solid var(--border)}
+.tot{display:flex;justify-content:space-between;font-size:17px;font-weight:700;margin-bottom:10px}
+.notif{position:fixed;top:64px;right:16px;width:320px;max-width:94vw;background:var(--panel);border:1px solid var(--border);border-radius:12px;z-index:120;box-shadow:0 20px 60px rgba(0,0,0,.4);max-height:70vh;overflow:auto;display:none}
+.notif.open{display:block}
+.notif .item{padding:11px 13px;border-bottom:1px solid var(--border);font-size:13px}
+.notif .item.unread{background:rgba(79,124,255,.08)}
+.notif .item .time{color:var(--muted);font-size:11px;margin-top:3px}
+.notif .head{padding:12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--panel)}
+.review{background:var(--panel2);border-radius:10px;padding:11px;margin:7px 0}
+.review .head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+.review .stars{color:var(--gold)}
+.empty{text-align:center;padding:40px;color:var(--muted)}
+.empty .big{font-size:46px;margin-bottom:10px;opacity:.4}
+.ovl{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:100}
+footer{border-top:1px solid var(--border);padding:20px;color:var(--muted);font-size:12.5px;text-align:center;margin-top:40px}
+footer a{margin:0 8px;color:var(--muted)}
+#burger{display:none}
+.mobile-menu{position:fixed;top:0;left:-300px;width:280px;max-width:88vw;height:100%;background:var(--panel);z-index:200;transition:.25s;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:auto}
+.mobile-menu.open{left:0}
+.mobile-menu .mh{padding:16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.mobile-menu button{background:none;border:none;color:var(--text);padding:14px 18px;text-align:left;font-size:14px;border-bottom:1px solid var(--border);width:100%}
+.pagination{display:flex;justify-content:center;gap:6px;padding:20px 0 40px;flex-wrap:wrap;align-items:center}
+.compare-bar{position:fixed;bottom:20px;left:20px;background:var(--panel);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;z-index:90;box-shadow:0 10px 40px rgba(0,0,0,.5);display:none;gap:10px;align-items:center;font-size:13.5px;flex-wrap:wrap;max-width:calc(100vw - 40px)}
+.compare-bar.show{display:flex}
+.compare-bar b{color:var(--accent)}
+.cmp-table-wrap{overflow-x:auto;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:8px}
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px}
+.cmp-table th,.cmp-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top;min-width:180px}
+.cmp-table th{background:var(--panel2);text-align:center}
+.cmp-table td:first-child{color:var(--muted);font-size:12px;text-transform:uppercase;font-weight:600;background:var(--panel2);position:sticky;left:0;z-index:1}
+/* === Графики === */
+.chart-box{background:var(--panel2);border-radius:12px;padding:16px;margin:12px 0}
+.chart-box h4{font-size:13.5px;color:var(--muted);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.linechart{width:100%;height:180px;display:block}
+.barchart{display:flex;align-items:flex-end;gap:4px;height:180px;padding:0 4px}
+.barchart>div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0;position:relative}
+.barchart .b{width:100%;background:linear-gradient(180deg,var(--accent),var(--green));border-radius:3px 3px 0 0;transition:.2s;min-height:2px}
+.barchart .b:hover{filter:brightness(1.3)}
+.barchart .lb{font-size:9px;color:var(--muted);margin-top:4px;transform:rotate(-45deg);white-space:nowrap}
+.pie{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.pie svg{flex-shrink:0}
+.pie-legend{flex:1;min-width:150px}
+.pie-legend .li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:12.5px;border-bottom:1px solid var(--border)}
+.pie-legend .li:last-child{border:none}
+.pie-legend .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.key-item{display:flex;align-items:center;gap:8px;background:var(--panel2);padding:6px 10px;border-radius:6px;margin:4px 0;font-family:Consolas,monospace;font-size:12px}
+.key-item button{background:none;border:none;color:var(--red);padding:2px 6px;cursor:pointer}
+@media(max-width:760px){
+  #burger{display:inline-flex}
+  .desk-nav{display:none!important}
+  .bar{gap:6px}
+  .logo{font-size:17px}
+  #searchWrap{order:10;flex-basis:100%;max-width:none}
+  .stats-row .num{font-size:20px}
+  .stats-row{gap:14px}
+  .panel{padding:14px}
+  .box{padding:16px}
+  th,td{padding:7px 6px;font-size:12px}
+  .hero h1{font-size:22px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .compare-bar{bottom:10px;left:10px;right:10px}
+  .linechart{height:140px}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="container bar">
+  <button id="burger" class="ico" onclick="openMobileMenu()">☰</button>
+  <div class="logo" onclick="nav('catalog')">🔑 Key<span>Hub</span></div>
+  <div id="searchWrap" style="flex:1;min-width:140px;max-width:340px">
+    <input id="searchInp" placeholder="Поиск товаров..." oninput="onSearch()" onfocus="onSearch()" autocomplete="off">
+    <div id="suggest"></div>
+  </div>
+  <div class="row grow desk-nav" style="justify-content:flex-end" id="navArea"></div>
+  <div class="row grow" style="justify-content:flex-end">
+    <button id="installBtn" onclick="installPWA()">📱 Установить</button>
+    <button class="ico" onclick="toggleTheme()" id="themeBtn" title="Тема">🌙</button>
+  </div>
+</div></header>
+
+<aside class="mobile-menu" id="mobileMenu">
+  <div class="mh"><b>🔑 KeyHub</b><button class="ico" onclick="closeMobileMenu()">✕</button></div>
+  <div id="mobileNav"></div>
+</aside>
+
+<main class="container" id="view"></main>
+<footer><div class="container">
+  © 2026 KeyHub · <a onclick="nav('faq')">FAQ</a> · <a onclick="nav('offer')">Оферта</a> · <a onclick="nav('privacy')">Конфиденциальность</a> · <a onclick="nav('contacts')">Контакты</a>
+</div></footer>
+
+<div class="ovl" id="ovl" onclick="closeAll()"></div>
+<aside class="drawer" id="drawer">
+  <header><b>🛒 Корзина</b><button class="ico" onclick="closeAll()">✕</button></header>
+  <div class="items" id="cartItems"></div>
+  <div class="dfoot">
+    <div class="row" style="margin-bottom:8px"><input id="promoInp" placeholder="Промокод" style="flex:1"><button class="btn sm" onclick="applyPromo()">OK</button></div>
+    <div id="promoMsg" style="font-size:12.5px;margin-bottom:8px"></div>
+    <div class="tot"><span>Итого</span><span id="cartTotal">0 ₽</span></div>
+    <button class="btn green" style="width:100%" onclick="checkout()">Оплатить</button>
+  </div>
+</aside>
+
+<div class="notif" id="notifPanel"><div class="head"><b>Уведомления</b><button class="btn sm ghost" onclick="markRead()">Прочитать все</button></div><div id="notifList"></div></div>
+
+<div class="modal" id="authM"><div class="box">
+  <div class="tabs"><button class="tab active" id="tL" onclick="authTab('login')">Вход</button><button class="tab" id="tR" onclick="authTab('reg')">Регистрация</button></div>
+  <div id="authBody"></div>
+</div></div>
+
+<div class="modal" id="infoM"><div class="box" id="infoBody"></div></div>
+<div class="modal" id="topupM"><div class="box">
+  <h3 style="margin-bottom:14px">Пополнение баланса</h3>
+  <div class="fg"><label class="lbl">Сумма, ₽</label><input id="tuSum" type="number" value="1000"></div>
+  <div class="row" style="margin-bottom:14px">
+    <button class="btn sm ghost" onclick="document.getElementById('tuSum').value=500">500</button>
+    <button class="btn sm ghost" onclick="document.getElementById('tuSum').value=1000">1000</button>
+    <button class="btn sm ghost" onclick="document.getElementById('tuSum').value=3000">3000</button>
+    <button class="btn sm ghost" onclick="document.getElementById('tuSum').value=5000">5000</button>
+  </div>
+  <button class="btn green" style="width:100%" onclick="doTopup()">Пополнить</button>
+</div></div>
+
+<div class="compare-bar" id="compareBar">
+  <b>⚖️ Сравнение: <span id="compareCount">0</span>/4</b>
+  <button class="btn sm green" onclick="nav('compare')">Сравнить</button>
+  <button class="btn sm ghost" onclick="clearCompare()">Очистить</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let user=null,products=[],settings={commission:0.05,refRate:0.01,minPayout:500,cashbackRate:0.02,refBuyerRate:0.01,emailEnabled:true},promos=[],notifications=[];
+let cart=JSON.parse(localStorage.getItem('pm_cart')||'[]');
+let wishlist=JSON.parse(localStorage.getItem('pm_wish')||'[]');
+let viewed=JSON.parse(localStorage.getItem('pm_viewed')||'[]');
+let compare=JSON.parse(localStorage.getItem('pm_compare')||'[]');
+let cv={name:'catalog'},flt={cat:'Все',q:'',sort:'popular',page:1},promoActive=null,sTab='goods',aTab='moderation';
+const PER_PAGE=12;
+let deferredPrompt=null;
+
+document.documentElement.setAttribute('data-theme',localStorage.getItem('pm_theme')||'dark');
+
+async function api(path,method='GET',body){
+  const o={method,credentials:'same-origin',headers:{}};
+  if(body){o.headers['Content-Type']='application/json';o.body=JSON.stringify(body)}
+  try{const r=await fetch(path,o);return r.json()}catch(e){return null}
+}
+function saveCart(){localStorage.setItem('pm_cart',JSON.stringify(cart))}
+function saveWish(){localStorage.setItem('pm_wish',JSON.stringify(wishlist))}
+function saveViewed(){localStorage.setItem('pm_viewed',JSON.stringify(viewed))}
+function saveCompare(){localStorage.setItem('pm_compare',JSON.stringify(compare))}
+function toast(m,type){const t=document.getElementById('toast');t.textContent=m;t.className='toast '+(type||'');t.style.display='block';clearTimeout(toast._t);toast._t=setTimeout(()=>t.style.display='none',2600)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmt(n){return Math.round(n).toLocaleString('ru-RU')+' ₽'}
+function closeAll(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.getElementById('drawer').classList.remove('open');document.getElementById('ovl').style.display='none';document.getElementById('notifPanel').classList.remove('open');document.getElementById('suggest').classList.remove('open');closeMobileMenu()}
+function openM(id){closeAll();document.getElementById(id).classList.add('open')}
+function nav(name,data){cv={name,...(data||{})};closeAll();render();window.scrollTo(0,0)}
+
+async function reload(){
+  const [u,p,s,pr,n]=await Promise.all([api('/api/me'),api('/api/products'),api('/api/settings'),api('/api/promos'),api('/api/notifications')]);
+  user=u;products=p||[];settings=s||settings;promos=pr||[];notifications=n||[];
+  updateCompareBar();render();
+}
+
+/* PWA */
+function installPWA(){if(!deferredPrompt){toast('Установка недоступна','info');return}deferredPrompt.prompt();deferredPrompt.userChoice.then(c=>{toast(c.outcome==='accepted'?'✓ Установлено':'Отменено',c.outcome==='accepted'?'':'info');deferredPrompt=null;document.getElementById('installBtn').style.display='none';});}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const b=document.getElementById('installBtn');if(b)b.style.display='inline-flex';});
+window.addEventListener('appinstalled',()=>{toast('✓ KeyHub установлен');const b=document.getElementById('installBtn');if(b)b.style.display='none';});
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(e=>console.log('SW:',e.message));});}
+async function enablePush(){
+  if(!('Notification' in window)){toast('Браузер не поддерживает уведомления','err');return}
+  if(Notification.permission==='granted'){toast('Уведомления уже включены','info');showPush('KeyHub','Тестовое уведомление');return}
+  const perm=await Notification.requestPermission();
+  if(perm==='granted'){toast('✓ Уведомления включены');showPush('KeyHub','Уведомления активированы.');}
+  else toast('Отклонено','err');
+}
+async function showPush(title,body){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  try{const reg=await navigator.serviceWorker.ready;if(reg&&reg.showNotification){reg.showNotification(title,{body,icon:'/icon.svg'});return}}catch(e){}
+  try{new Notification(title,{body,icon:'/icon.svg'})}catch(e){}
+}
+
+/* СРАВНЕНИЕ */
+function toggleCompare(id,ev){if(ev)ev.stopPropagation();if(compare.includes(id)){compare=compare.filter(x=>x!==id);toast('Убрано','info')}else{if(compare.length>=4){toast('Максимум 4','err');return}compare.push(id);toast('✓ Добавлено')}saveCompare();updateCompareBar();const v=document.getElementById('view');if(cv.name==='catalog')renderCatalog(v);else if(cv.name==='compare')renderCompare(v);}
+function updateCompareBar(){const bar=document.getElementById('compareBar');if(!bar)return;if(compare.length>=2){bar.classList.add('show');document.getElementById('compareCount').textContent=compare.length}else bar.classList.remove('show');}
+function clearCompare(){compare=[];saveCompare();updateCompareBar();toast('Очищено','info');render()}
+
+function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',t);localStorage.setItem('pm_theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'🌙':'☀️';const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#0f1420':'#f4f6fb');}
+function openMobileMenu(){
+  document.getElementById('mobileMenu').classList.add('open');
+  const m=document.getElementById('mobileNav');let h='';
+  if(user){
+    h+=`<button onclick="closeMobileMenu();nav('catalog')">🏠 Каталог</button>`;
+    if(user.role==='buyer')h+=`<button onclick="closeMobileMenu();nav('purchases')">📦 Мои покупки</button>`;
+    if(user.role==='seller')h+=`<button onclick="closeMobileMenu();nav('seller')">💼 Кабинет продавца</button>`;
+    if(user.role==='admin')h+=`<button onclick="closeMobileMenu();nav('admin')">⚙️ Админ-панель</button>`;
+    h+=`<button onclick="closeMobileMenu();openWish()">❤️ Избранное (${wishlist.length})</button>`;
+    if(compare.length>=2)h+=`<button onclick="closeMobileMenu();nav('compare')">⚖️ Сравнение (${compare.length})</button>`;
+    h+=`<button onclick="closeMobileMenu();enablePush()">📢 Уведомления</button>`;
+    h+=`<button onclick="closeMobileMenu();openSettings()">⚙️ Настройки</button>`;
+    h+=`<button onclick="closeMobileMenu();logout()" style="color:var(--red)">🚪 Выйти</button>`;
+  } else h+=`<button onclick="closeMobileMenu();openAuth()">🔐 Войти / Регистрация</button>`;
+  m.innerHTML=h;
+}
+function closeMobileMenu(){document.getElementById('mobileMenu').classList.remove('open')}
+
+function renderHeader(){
+  const a=document.getElementById('navArea');const unread=notifications.filter(x=>!x.read).length;
+  let h='';
+  if(user){
+    h+=`<button class="ico" onclick="openNotif(event)">🔔${unread?`<span class="cc green">${unread>9?'9+':unread}</span>`:''}</button>`;
+    h+=`<button class="ico" onclick="openCart()">🛒${cart.length?`<span class="cc">${cart.length}</span>`:''}</button>`;
+    if(compare.length>=2)h+=`<button class="navbtn" onclick="nav('compare')">⚖️ ${compare.length}</button>`;
+    h+=`<button class="navbtn" onclick="openWish()">❤️ ${wishlist.length||''}</button>`;
+    if(user.role==='buyer')h+=`<button class="navbtn" onclick="nav('purchases')">Покупки</button>`;
+    if(user.role==='seller')h+=`<button class="navbtn" onclick="nav('seller')">Кабинет</button>`;
+    if(user.role==='admin')h+=`<button class="navbtn" onclick="nav('admin')">Админка</button>`;
+    h+=`<button class="navbtn" onclick="enablePush()">📢</button>`;
+    h+=`<button class="navbtn" onclick="openSettings()">⚙️</button>`;
+    h+=`<button class="btn sm" onclick="logout()">${esc(user.name.split(' ')[0])} · ${fmt(user.balance)}</button>`;
+  } else {
+    h+=`<button class="ico" onclick="openCart()">🛒${cart.length?`<span class="cc">${cart.length}</span>`:''}</button>`;
+    h+=`<button class="navbtn" onclick="enablePush()">📢</button>`;
+    h+=`<button class="btn" onclick="openAuth()">Войти</button>`;
+  }
+  a.innerHTML=h;
+}
+
+function render(){
+  renderHeader();
+  const v=document.getElementById('view');const n=cv.name;
+  if(n==='catalog')renderCatalog(v);
+  else if(n==='product')renderProduct(v);
+  else if(n==='purchases')renderPurchases(v);
+  else if(n==='seller')renderSeller(v);
+  else if(n==='admin')renderAdmin(v);
+  else if(n==='compare')renderCompare(v);
+  else if(n==='faq'||n==='offer'||n==='privacy'||n==='contacts')renderStatic(v,n);
+}
+
+function onSearch(){
+  flt.q=document.getElementById('searchInp').value.toLowerCase();flt.page=1;
+  if(cv.name==='catalog')renderCatalog(document.getElementById('view'));
+  const box=document.getElementById('suggest');
+  if(!flt.q||flt.q.length<2){box.classList.remove('open');box.innerHTML='';return}
+  const matches=products.filter(p=>p.title.toLowerCase().includes(flt.q)||(p.tags||[]).some(t=>t.includes(flt.q))).slice(0,6);
+  if(!matches.length){box.classList.remove('open');box.innerHTML='';return}
+  box.innerHTML=matches.map(p=>`<div class="sg" onclick="pickSuggest('${p.id}')"><span class="sic">${p.icon}</span><div class="sinfo"><div style="font-weight:600">${esc(p.title.slice(0,45))}</div><div class="muted" style="font-size:11.5px">${esc(p.seller)} · ⭐ ${p.rating}</div></div><div class="sprice">${fmt(p.price)}</div></div>`).join('');
+  box.classList.add('open');
+}
+function pickSuggest(id){document.getElementById('suggest').classList.remove('open');document.getElementById('searchInp').value='';flt.q='';flt.page=1;openProduct(id)}
+document.addEventListener('click',e=>{const s=document.getElementById('suggest');if(s&&!e.target.closest('#searchWrap'))s.classList.remove('open');});
+
+/* КАТАЛОГ */
+function renderCatalog(v){
+  const cats=['Все',...new Set(products.map(p=>p.cat))];
+  let list=products.filter(p=>(flt.cat==='Все'||p.cat===flt.cat)).filter(p=>p.title.toLowerCase().includes(flt.q)||p.desc.toLowerCase().includes(flt.q));
+  if(flt.sort==='price-asc')list.sort((a,b)=>a.price-b.price);
+  else if(flt.sort==='price-desc')list.sort((a,b)=>b.price-a.price);
+  else if(flt.sort==='rating')list.sort((a,b)=>b.rating-a.rating);
+  else list.sort((a,b)=>b.sales-a.sales);
+
+  const totalSales=products.reduce((s,p)=>s+p.sales,0);
+  const avgRating=products.length?(products.reduce((s,p)=>s+p.rating,0)/products.length).toFixed(1):'—';
+  const sellersCount=new Set(products.map(p=>p.seller)).size;
+  const viewedItems=viewed.map(id=>products.find(p=>p.id===id)).filter(Boolean);
+
+  const totalPages=Math.ceil(list.length/PER_PAGE)||1;
+  if(flt.page>totalPages)flt.page=1;
+  const start=(flt.page-1)*PER_PAGE;
+  const paged=list.slice(start,start+PER_PAGE);
+  const gridHTML=paged.map(cardHTML).join('')||'<div class="empty" style="grid-column:1/-1"><div class="big">🔍</div><p>Ничего не найдено</p></div>';
+  const btns=[];for(let i=1;i<=totalPages;i++){if(totalPages>7&&i>2&&i<totalPages-1&&Math.abs(i-flt.page)>1){if(btns[btns.length-1]!=='...')btns.push('...');continue}btns.push(i);}
+  const pagination=totalPages>1?`<div class="pagination"><button class="btn sm ghost" ${flt.page===1?'disabled':''} onclick="goPage(${flt.page-1})">← Назад</button>${btns.map(b=>b==='...'?`<span class="muted">…</span>`:`<button class="btn sm ${b===flt.page?'':'ghost'}" onclick="goPage(${b})">${b}</button>`).join('')}<button class="btn sm ghost" ${flt.page===totalPages?'disabled':''} onclick="goPage(${flt.page+1})">Вперёд →</button></div>`:'';
+
+  v.innerHTML=`
+  <section class="hero"><h1>Цифровые товары от проверенных продавцов</h1><p>Мгновенная выдача · эскроу-защита · кэшбэк ${Math.round(settings.cashbackRate*100)}%</p>
+    <div class="stats-row">
+      <div><div class="num">${products.length}</div><div class="lbl">товаров</div></div>
+      <div><div class="num">${sellersCount}</div><div class="lbl">продавцов</div></div>
+      <div><div class="num">${totalSales.toLocaleString('ru-RU')}</div><div class="lbl">продаж</div></div>
+      <div><div class="num gold">★ ${avgRating}</div><div class="lbl">средний рейтинг</div></div>
+    </div>
+  </section>
+  ${viewedItems.length?`<div class="viewed"><h3>🕐 Недавно просмотренные</h3><div class="viewed-scroll">${viewedItems.map(p=>`<div class="viewed-card" onclick="openProduct('${p.id}')"><div class="vi">${p.icon}</div><div class="vt">${esc(p.title)}</div><div class="vp">${fmt(p.price)}</div></div>`).join('')}</div></div>`:''}
+  ${promos.length?`<div class="promo-banner">🎁 Промокод: <b>${promos[0].code}</b> — ${promos[0].discount}% скидка<button class="copybtn" onclick="navigator.clipboard.writeText('${promos[0].code}');toast('✓ Скопировано')">Копировать</button></div>`:''}
+  <div class="cats">${cats.map(c=>`<button class="cat ${c===flt.cat?'active':''}" onclick="flt.cat='${esc(c)}';flt.page=1;renderCatalog(document.getElementById('view'))">${esc(c)}</button>`).join('')}</div>
+  <div class="toolbar"><h3>Найдено: ${list.length} · Стр. ${flt.page}/${totalPages}</h3>
+    ${compare.length>=2?`<button class="btn sm" onclick="nav('compare')">⚖️ Сравнить (${compare.length})</button>`:''}
+    <select onchange="flt.sort=this.value;flt.page=1;renderCatalog(document.getElementById('view'))">
+      <option value="popular" ${flt.sort==='popular'?'selected':''}>По популярности</option>
+      <option value="price-asc" ${flt.sort==='price-asc'?'selected':''}>Сначала дешёвые</option>
+      <option value="price-desc" ${flt.sort==='price-desc'?'selected':''}>Сначала дорогие</option>
+      <option value="rating" ${flt.sort==='rating'?'selected':''}>По рейтингу</option>
+    </select>
+  </div>
+  <div class="grid">${gridHTML}</div>${pagination}`;
+}
+function goPage(n){flt.page=n;renderCatalog(document.getElementById('view'));window.scrollTo(0,0)}
+function cardHTML(p){
+  const fav=wishlist.includes(p.id);const cmp=compare.includes(p.id);
+  const disc=p.old>p.price?Math.round((1-p.price/p.old)*100):0;
+  const sellerProducts=products.filter(x=>x.seller===p.seller);
+  const sellerRating=sellerProducts.length?(sellerProducts.reduce((s,x)=>s+x.rating,0)/sellerProducts.length).toFixed(1):'—';
+  const sellerSales=sellerProducts.reduce((s,x)=>s+x.sales,0);
+  const sellerVerified=sellerSales>1000;
+  return `<div class="card" onclick="openProduct('${p.id}')">
+    <label class="cmp-chk ${cmp?'on':''}" onclick="event.stopPropagation()"><input type="checkbox" ${cmp?'checked':''} onchange="toggleCompare('${p.id}')"><span>Сравнить</span></label>
+    <button class="fav" onclick="event.stopPropagation();toggleFav('${p.id}')">${fav?'❤️':'🤍'}</button>
+    ${p.badge?`<span class="badge" style="margin-top:20px">${esc(p.badge)}</span>`:''}
+    <div class="ic">${p.icon}</div>
+    <h3>${esc(p.title)}</h3>
+    <div class="meta"><span>⭐ ${p.rating} · ${p.sales} продаж</span></div>
+    <div class="meta"><span>${sellerVerified?'✓ ':''}${esc(p.seller)} · ★${sellerRating}</span>${disc?`<span style="color:var(--green);font-weight:600">−${disc}%</span>`:''}</div>
+    <div class="price">${fmt(p.price)}${p.old>p.price?`<span class="old">${fmt(p.old)}</span>`:''}</div>
+    <button class="buy" ${p.pool.length===0?'disabled':''} onclick="event.stopPropagation();addCart('${p.id}')">${p.pool.length===0?'Нет в наличии':'В корзину'}</button>
+  </div>`;
+}
+
+/* СРАВНЕНИЕ */
+function renderCompare(v){
+  const items=compare.map(id=>products.find(p=>p.id===id)).filter(Boolean);
+  if(!items.length){v.innerHTML=`<div class="panel"><div class="empty"><div class="big">⚖️</div><p>Нет товаров</p><button class="btn green" style="margin-top:14px" onclick="nav('catalog')">В каталог</button></div></div>`;return}
+  const row=(label,fn)=>`<tr><td>${label}</td>${items.map(p=>`<td>${fn(p)}</td>`).join('')}</tr>`;
+  v.innerHTML=`<div class="row" style="justify-content:space-between;margin-bottom:14px"><h2 style="margin:0">⚖️ Сравнение (${items.length})</h2><div class="row"><button class="btn sm ghost" onclick="nav('catalog')">← Назад</button><button class="btn sm red" onclick="clearCompare()">Очистить</button></div></div>
+  <div class="cmp-table-wrap"><table class="cmp-table">
+    <tr><th></th>${items.map(p=>`<th><div style="font-size:44px">${p.icon}</div><div style="font-size:13px;font-weight:600;margin:6px 0;color:var(--text)">${esc(p.title.slice(0,50))}</div><button class="btn sm red" onclick="toggleCompare('${p.id}')">Убрать</button></th>`).join('')}</tr>
+    ${row('Цена',p=>`<b style="color:var(--green);font-size:16px">${fmt(p.price)}</b>`)}
+    ${row('Старая',p=>p.old>p.price?`<span style="text-decoration:line-through;color:var(--muted)">${fmt(p.old)}</span>`:'—')}
+    ${row('Скидка',p=>{const d=p.old>p.price?Math.round((1-p.price/p.old)*100):0;return d?`<span style="color:var(--red);font-weight:600">−${d}%</span>`:'—'})}
+    ${row('Рейтинг',p=>`<span style="color:var(--gold)">⭐ ${p.rating}</span>`)}
+    ${row('Продаж',p=>p.sales)}
+    ${row('Продавец',p=>esc(p.seller))}
+    ${row('В наличии',p=>p.pool.length?`<span style="color:var(--green)">${p.pool.length} шт</span>`:'<span style="color:var(--red)">Нет</span>')}
+    ${row('Описание',p=>`<span style="font-size:12.5px;color:var(--muted)">${esc(p.desc)}</span>`)}
+    <tr><td></td>${items.map(p=>`<td><button class="btn green sm" ${p.pool.length===0?'disabled':''} onclick="addCart('${p.id}')">🛒 В корзину</button></td>`).join('')}</tr>
+  </table></div>`;
+}
+
+function toggleFav(id){if(wishlist.includes(id)){wishlist=wishlist.filter(x=>x!==id);toast('Удалено','info')}else{wishlist.push(id);toast('❤️ В избранном')}saveWish();render();}
+function openWish(){const items=wishlist.map(id=>products.find(p=>p.id===id)).filter(Boolean);document.getElementById('infoBody').innerHTML=`<h2>❤️ Избранное (${items.length})</h2>${items.length?`<div class="grid" style="margin-top:12px">${items.map(cardHTML).join('')}</div>`:'<div class="empty"><div class="big">❤️</div><p>Пусто</p></div>'}`;openM('infoM');}
+function openProduct(id){viewed=viewed.filter(x=>x!==id);viewed.unshift(id);viewed=viewed.slice(0,6);saveViewed();api('/api/track','POST',{type:'view',productId:id});nav('product',{id});}
+
+function renderProduct(v){
+  const p=products.find(x=>x.id===cv.id);if(!p){nav('catalog');return}
+  const reviews=p.reviews||[];const fav=wishlist.includes(p.id);const cmp=compare.includes(p.id);
+  const disc=p.old>p.price?Math.round((1-p.price/p.old)*100):0;
+  const sellerProducts=products.filter(x=>x.seller===p.seller);
+  const sellerRating=sellerProducts.length?(sellerProducts.reduce((s,x)=>s+x.rating,0)/sellerProducts.length).toFixed(1):'—';
+  const sellerSales=sellerProducts.reduce((s,x)=>s+x.sales,0);
+  const sellerVerified=sellerSales>1000;
+  const similar=products.filter(x=>x.cat===p.cat&&x.id!==p.id).sort((a,b)=>b.sales-a.sales).slice(0,4);
+  v.innerHTML=`
+  <div class="breadcrumbs"><a onclick="nav('catalog')">Каталог</a> <span>›</span><a onclick="flt.cat='${esc(p.cat)}';flt.page=1;nav('catalog')">${esc(p.cat)}</a> <span>›</span><span>${esc(p.title)}</span></div>
+  <div style="margin-bottom:14px"><button class="btn ghost sm" onclick="nav('catalog')">← Назад</button></div>
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:20px">
+    <div class="panel">
+      <div style="font-size:56px;text-align:center;padding:12px 0">${p.icon}</div>
+      <h2>${esc(p.title)}</h2>
+      <p class="muted" style="margin:8px 0 12px">Продавец: <b style="color:var(--text)">${sellerVerified?'✓ ':''}${esc(p.seller)}</b> · ★${sellerRating} · ${esc(p.cat)}</p>
+      <div class="row" style="gap:14px;margin-bottom:12px;font-size:13px"><span>⭐ <b>${p.rating}</b></span><span>📦 ${p.sales} продаж</span><span>🔑 ${p.pool.length} шт</span></div>
+      <p style="line-height:1.6">${esc(p.desc)}</p>
+      <h3 style="margin-top:20px">Отзывы (${reviews.length})</h3>
+      ${reviews.length?reviews.map(r=>`<div class="review"><div class="head"><b>${esc(r.user)}</b><span class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span></div><div>${esc(r.text)}</div><div class="muted" style="font-size:11px;margin-top:4px">${r.date||''}</div></div>`).join(''):'<p class="muted">Пока нет отзывов</p>'}
+    </div>
+    <div class="panel" style="height:fit-content">
+      ${disc?`<span class="badge" style="background:rgba(255,95,109,.15);color:var(--red)">🔥 −${disc}%</span>`:''}
+      <div class="price" style="font-size:26px;margin-top:8px">${fmt(p.price)}${p.old>p.price?`<span class="old">${fmt(p.old)}</span>`:''}</div>
+      <button class="btn green" style="width:100%;margin-top:14px;padding:12px" ${p.pool.length===0?'disabled':''} onclick="addCart('${p.id}')">🛒 В корзину</button>
+      <button class="btn ghost" style="width:100%;margin-top:8px" onclick="toggleFav('${p.id}')">${fav?'❤️ В избранном':'🤍 В избранное'}</button>
+      <button class="btn ghost" style="width:100%;margin-top:8px" onclick="toggleCompare('${p.id}')">${cmp?'✓ В сравнении':'⚖️ Сравнить'}</button>
+      <p class="muted" style="font-size:12px;margin-top:12px;text-align:center">🛡️ Эскроу · 💸 Кэшбэк ${Math.round(settings.cashbackRate*100)}%</p>
+    </div>
+  </div>
+  ${similar.length?`<h2 style="margin:24px 0 14px;font-size:20px">📦 Похожие товары</h2><div class="grid">${similar.map(cardHTML).join('')}</div>`:''}`;
+}
+
+function addCart(id){const p=products.find(x=>x.id===id);if(!p||p.pool.length===0){toast('Нет в наличии','err');return}cart.push(id);saveCart();renderHeader();toast('Добавлено');api('/api/track','POST',{type:'cart',productId:id});}
+function openCart(){document.getElementById('drawer').classList.add('open');document.getElementById('ovl').style.display='block';drawCart()}
+function drawCart(){
+  const items=document.getElementById('cartItems');let total=0;
+  items.innerHTML=cart.map((id,i)=>{const p=products.find(x=>x.id===id);if(!p)return '';total+=p.price;return `<div class="ci"><span>${p.icon} ${esc(p.title.slice(0,25))}</span><span>${fmt(p.price)} <button onclick="rmCart(${i})">✕</button></span></div>`}).join('')||'<p class="muted" style="text-align:center;padding:20px">Пусто</p>';
+  const disc=promoActive?Math.round(total*promoActive.discount/100):0;
+  const cb=Math.round((total-disc)*(settings.cashbackRate||0.02));
+  document.getElementById('cartTotal').innerHTML=total?`${fmt(total-disc)}${disc?` <span class="muted" style="font-size:12px;text-decoration:line-through">${fmt(total)}</span>`:''}${cb?`<div style="font-size:11.5px;color:var(--green);text-align:right">+${fmt(cb)} кэшбэк</div>`:''}`:'0 ₽';
+}
+function rmCart(i){cart.splice(i,1);saveCart();renderHeader();drawCart()}
+function applyPromo(){const code=document.getElementById('promoInp').value.trim().toUpperCase();const pr=promos.find(p=>p.code===code);const m=document.getElementById('promoMsg');if(!pr){m.innerHTML='<span style="color:var(--red)">Не найден</span>';promoActive=null;drawCart();return}promoActive={code:pr.code,discount:pr.discount};m.innerHTML=`<span style="color:var(--green)">✓ −${pr.discount}%</span>`;drawCart();}
+async function checkout(){
+  if(!user){closeAll();openAuth();return}
+  if(user.role!=='buyer'){toast('Только покупатели','err');return}
+  if(!cart.length){toast('Пусто','err');return}
+  const r=await api('/api/orders','POST',{ids:cart,promo:promoActive?promoActive.code:null});
+  if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}
+  cart=[];promoActive=null;saveCart();closeAll();
+  toast(`✓ Оплачено! Кэшбэк +${fmt(r.cashback||0)}`);
+  showPush('Заказ оплачен','Кэшбэк +'+fmt(r.cashback||0));
+  await reload();nav('purchases');
+}
+
+/* ПОКУПКИ */
+async function renderPurchases(v){
+  const orders=await api('/api/orders')||[];
+  const ref=await api('/api/referral')||{};
+  v.innerHTML=`<div class="panel">
+    <div class="row" style="justify-content:space-between;margin-bottom:14px"><h2 style="margin:0">Мои покупки (${orders.length})</h2><div class="row"><b>Баланс:</b> ${fmt(user.balance)}<button class="btn sm green" onclick="openM('topupM')">+ Пополнить</button></div></div>
+    ${orders.length?orders.map(o=>`<div style="background:var(--panel2);padding:14px;border-radius:10px;margin:10px 0">
+      <div class="row" style="justify-content:space-between"><b>Заказ #${o.id}</b><span class="muted">${o.date}</span></div>
+      ${o.items.map(it=>`<div style="margin-top:8px"><div class="ci"><span>${esc(it.title)}</span><span>${fmt(it.price)}</span></div><div class="key">${esc(it.item)}<button onclick="copyKey(this)">Копировать</button></div></div>`).join('')}
+      ${o.cashback?`<p class="muted" style="font-size:12px;margin-top:6px">💸 Кэшбэк: +${fmt(o.cashback)}</p>`:''}
+      <div class="row" style="margin-top:10px">${!o.reviewed?`<button class="btn sm" onclick="openReview(${o.id})">⭐ Отзыв</button>`:'<span class="muted" style="font-size:12px">✓ Отзыв отправлен</span>'}<button class="btn sm red" onclick="openDispute(${o.id})">⚠️ Спор</button></div>
+    </div>`).join(''):'<div class="empty"><div class="big">📦</div><p>Покупок нет</p><button class="btn green" style="margin-top:10px" onclick="nav(\'catalog\')">В каталог</button></div>'}
+  </div>
+  <div class="panel"><h2>💸 Партнёрская программа</h2>
+    <p class="muted" style="margin-bottom:14px">Приглашайте друзей — получайте ${Math.round((ref.refBuyerRate||0.01)*100)}% с их покупок. Кэшбэк ${Math.round((ref.cashbackRate||0.02)*100)}%.</p>
+    <div class="stats">
+      <div class="stat"><b style="color:var(--green)">${fmt(ref.refEarnings||0)}</b><span>Заработано</span></div>
+      <div class="stat"><b>${ref.invited||0}</b><span>Приглашено</span></div>
+      <div class="stat"><b style="color:var(--accent)">${fmt(ref.invitedSales||0)}</b><span>Оборот друзей</span></div>
+      <div class="stat"><b style="color:var(--gold)">${Math.round((ref.cashbackRate||0.02)*100)}%</b><span>Кэшбэк</span></div>
+    </div>
+    <div class="fg"><label class="lbl">Реферальная ссылка</label><div class="row"><input id="refLink" value="${location.origin}/?ref=${ref.refCode||''}" readonly style="flex:1"><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('refLink').value);toast('✓ Скопировано')">📋</button></div></div>
+    <p class="muted" style="font-size:12px">Код: <b style="color:var(--text);font-family:Consolas,monospace">${ref.refCode||''}</b></p>
+  </div>`;
+}
+function copyKey(btn){const k=btn.parentElement.childNodes[0].textContent.trim();navigator.clipboard.writeText(k).then(()=>{btn.textContent='✓';setTimeout(()=>btn.textContent='Копировать',1200)});}
+function openReview(orderId){document.getElementById('infoBody').innerHTML=`<h3>Оставить отзыв</h3><div style="background:rgba(79,124,255,.1);color:#93c5fd;padding:10px;border-radius:8px;font-size:12.5px;margin-bottom:12px">📝 После проверки модератором</div><div class="fg"><label class="lbl">Оценка</label><select id="rvStars"><option value="5">★★★★★</option><option value="4">★★★★</option><option value="3">★★★</option><option value="2">★★</option><option value="1">★</option></select></div><div class="fg"><label class="lbl">Комментарий</label><textarea id="rvText" rows="3"></textarea></div><button class="btn green" style="width:100%" onclick="submitReview(${orderId})">Отправить</button>`;openM('infoM');}
+async function submitReview(orderId){const rating=+document.getElementById('rvStars').value;const text=document.getElementById('rvText').value.trim();if(!text){toast('Текст','err');return}const r=await api('/api/review','POST',{orderId,rating,text});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}closeAll();toast('✓ Отправлено на модерацию','info');await reload();nav('purchases');}
+function openDispute(orderId){document.getElementById('infoBody').innerHTML=`<h3>Спор</h3><div class="fg"><label class="lbl">Причина</label><select id="dsR"><option>Ключ не активируется</option><option>Не соответствует описанию</option><option>Не получил товар</option><option>Другое</option></select></div><div class="fg"><label class="lbl">Описание</label><textarea id="dsT" rows="3"></textarea></div><button class="btn red" style="width:100%" onclick="submitDispute(${orderId})">Открыть спор</button>`;openM('infoM');}
+async function submitDispute(orderId){const reason=document.getElementById('dsR').value;const text=document.getElementById('dsT').value.trim();if(!text){toast('Опишите','err');return}const r=await api('/api/disputes','POST',{orderId,reason,text});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}closeAll();toast('Спор открыт','info');nav('purchases');}
+
+/* КАБИНЕТ ПРОДАВЦА */
+async function renderSeller(v){
+  if(!user||user.role!=='seller'){nav('catalog');return}
+  const [mine,sold,payouts]=await Promise.all([api('/api/products/mine'),api('/api/orders/sold'),api('/api/payouts')]);
+  const M=mine||[],S=sold||[],P=payouts||[];
+  const revenue=S.reduce((s,o)=>s+o.items.filter(i=>i.sellerId===user.id).reduce((a,i)=>a+i.price,0),0);
+  const income=S.reduce((s,o)=>s+o.items.filter(i=>i.sellerId===user.id).reduce((a,i)=>a+i.price-Math.round(i.price*settings.commission),0),0);
+  let body='';
+  if(sTab==='goods'){
+    body=`<h3>Добавить товар</h3>
+    <form id="addForm" onsubmit="addProduct(event);return false">
+      <div class="fg"><label class="lbl">Название</label><input name="title" required></div>
+      <div class="row"><div class="fg" style="flex:1"><label class="lbl">Категория</label><select name="cat"><option>Игровые ключи</option><option>Программное обеспечение</option><option>Подписки</option><option>Обучение</option></select></div>
+      <div class="fg" style="flex:1"><label class="lbl">Цена</label><input name="price" type="number" required></div>
+      <div class="fg" style="flex:1"><label class="lbl">Старая</label><input name="old" type="number"></div>
+      <div class="fg" style="flex:1"><label class="lbl">Иконка</label><input name="icon" value="🎮" maxlength="4"></div></div>
+      <div class="fg"><label class="lbl">Описание</label><textarea name="desc" rows="2" required></textarea></div>
+      <div class="fg"><label class="lbl">Ключи (по одному в строке)</label><textarea name="pool" rows="3" required></textarea></div>
+      <button class="btn green">Отправить на модерацию</button>
+    </form>
+    <h3 style="margin-top:20px">Мои товары (${M.length})</h3>
+    <table><tr><th>Товар</th><th>Статус</th><th>Цена</th><th>Продаж</th><th>Остаток</th><th></th></tr>
+    ${M.map(p=>`<tr><td>${p.icon} ${esc(p.title)}</td>
+      <td>${p.status==='approved'?'✓ Одобрен':p.status==='pending'?'⏳ Модерация':'✕ Отклонён'}</td>
+      <td>${fmt(p.price)}</td><td>${p.sales}</td><td>${p.pool.length}</td>
+      <td><button class="btn sm" onclick="openEditProduct('${p.id}')">✏️</button> <button class="btn sm red" onclick="delProduct('${p.id}')">🗑️</button></td></tr>`).join('')||'<tr><td colspan="6" class="muted">Товаров нет</td></tr>'}</table>`;
+  } else if(sTab==='orders'){
+    body=`<h3>Продажи (${S.length})</h3><table><tr><th>Дата</th><th>Товар</th><th>Сумма</th><th>Комиссия</th><th>Получено</th></tr>
+    ${S.map(o=>{const m=o.items.filter(i=>i.sellerId===user.id);const sum=m.reduce((s,i)=>s+i.price,0);const c=Math.round(sum*settings.commission);return `<tr><td>${o.date}</td><td>${m.map(i=>esc(i.title)).join(', ')}</td><td>${fmt(sum)}</td><td>−${fmt(c)}</td><td style="color:var(--green)">+${fmt(sum-c)}</td></tr>`}).join('')||'<tr><td colspan="5" class="muted">Продаж нет</td></tr>'}</table>`;
+  } else if(sTab==='analytics'){
+    const ch=await api('/api/seller/charts')||{daily:[],categories:[],top:[]};
+    const daily=ch.daily||[];const cats=ch.categories||[];const top=ch.top||[];
+    const maxSum=Math.max(1,...daily.map(d=>d.sum));
+    const totalSum=daily.reduce((s,d)=>s+d.sum,0);
+    const totalCnt=daily.reduce((s,d)=>s+d.cnt,0);
+    const avgDay=Math.round(totalSum/30);
+    // Линейный график SVG
+    const W=800,H=180,pad=30;
+    const points=daily.map((d,i)=>{
+      const x=pad+(W-pad*2)*(i/(daily.length-1||1));
+      const y=H-pad-(H-pad*2)*(d.sum/maxSum);
+      return {x,y,d};
+    });
+    const path=points.map((p,i)=>(i===0?'M':'L')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ');
+    const areaPath=path+' L '+(W-pad)+' '+(H-pad)+' L '+pad+' '+(H-pad)+' Z';
+    const lineChart=`<svg class="linechart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f7cff" stop-opacity=".35"/><stop offset="1" stop-color="#4f7cff" stop-opacity="0"/></linearGradient></defs>
+      <path d="${areaPath}" fill="url(#gr)"/>
+      <path d="${path}" fill="none" stroke="#4f7cff" stroke-width="2.5"/>
+      ${points.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" fill="#4f7cff"><title>${p.d.date}: ${p.d.sum.toLocaleString('ru-RU')} ₽ (${p.d.cnt} шт)</title></circle>`).join('')}
+    </svg>`;
+    // Круговая диаграмма категорий
+    const totalCat=cats.reduce((s,c)=>s+c.value,0)||1;
+    const colors=['#4f7cff','#37c978','#ffd166','#ff5f6d','#a855f7','#06b6d4','#f97316'];
+    let cumulative=0;
+    const R=70,circ=2*Math.PI*R;
+    const pieSlices=cats.slice(0,7).map((c,i)=>{
+      const frac=c.value/totalCat;
+      const dash=frac*circ;
+      const el=`<circle cx="90" cy="90" r="${R}" fill="none" stroke="${colors[i%colors.length]}" stroke-width="32" stroke-dasharray="${dash.toFixed(2)} ${(circ-dash).toFixed(2)}" stroke-dashoffset="${(-cumulative).toFixed(2)}" transform="rotate(-90 90 90)"/>`;
+      cumulative+=dash;
+      return el;
+    }).join('');
+    const pie=`<div class="pie"><svg width="180" height="180" viewBox="0 0 180 180">${pieSlices||'<circle cx="90" cy="90" r="70" fill="none" stroke="var(--border)" stroke-width="32"/>'}</svg><div class="pie-legend">
+      ${cats.slice(0,7).map((c,i)=>`<div class="li"><span><span class="dot" style="background:${colors[i%colors.length]}"></span>${esc(c.name)}</span><b>${fmt(c.value)}</b></div>`).join('')||'<p class="muted">Нет данных</p>'}
+    </div></div>`;
+    body=`<h3>📊 Аналитика</h3>
+    <div class="stats">
+      <div class="stat"><b>${fmt(revenue)}</b><span>Оборот всего</span></div>
+      <div class="stat"><b style="color:var(--green)">${fmt(income)}</b><span>Доход всего</span></div>
+      <div class="stat"><b style="color:var(--gold)">${S.length}</b><span>Заказов</span></div>
+      <div class="stat"><b>${fmt(avgDay)}</b><span>Средн. в день</span></div>
+    </div>
+    <div class="chart-box"><h4>📈 Выручка за 30 дней (${fmt(totalSum)} · ${totalCnt} продаж)</h4>${lineChart}</div>
+    <h3 style="margin-top:16px">📉 Продажи за 7 дней</h3>
+    <div class="chart-box" style="padding:10px">
+      <div class="barchart">
+        ${daily.slice(-7).map(d=>`<div title="${d.date}: ${d.sum.toLocaleString('ru-RU')} ₽ (${d.cnt} шт)">
+          <div class="b" style="height:${Math.max(2,d.sum/maxSum*100)}%"></div>
+          <div class="lb">${d.date}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <h3 style="margin-top:16px">🥧 Выручка по категориям</h3>
+    <div class="chart-box">${pie}</div>
+    <h3 style="margin-top:16px">🏆 Топ-8 товаров</h3>
+    <table><tr><th>Товар</th><th>Продаж</th><th>Выручка</th></tr>
+    ${top.map(p=>`<tr><td>${p.icon} ${esc(p.title)}</td><td>${p.sales}</td><td>${fmt(p.revenue)}</td></tr>`).join('')||'<tr><td colspan="3" class="muted">Нет данных</td></tr>'}</table>`;
+  } else if(sTab==='funnel'){
+    const fn=await api('/api/seller/funnel')||{products:[],totalViews:0,totalCarts:0,totalPurchases:0};
+    const conv=fn.totalCarts?((fn.totalPurchases/fn.totalCarts)*100).toFixed(1):'0';
+    const maxStep=Math.max(1,fn.totalViews);
+    body=`<h3>🎯 Воронка продаж</h3>
+    <div class="funnel">
+      <div class="funnel-step"><div><div class="lbl2">👁 Просмотры</div><div class="bar" style="width:100%"></div></div><div class="val">${fn.totalViews}</div></div>
+      <div class="funnel-step"><div><div class="lbl2">🛒 В корзину</div><div class="bar" style="width:${Math.round(fn.totalCarts/maxStep*100)}%"></div></div><div class="val">${fn.totalCarts}</div></div>
+      <div class="funnel-step"><div><div class="lbl2">💰 Покупки</div><div class="bar" style="width:${Math.round(fn.totalPurchases/maxStep*100)}%"></div></div><div class="val">${fn.totalPurchases}</div></div>
+      <div class="funnel-step"><div><div class="lbl2">📈 Конверсия</div></div><div class="val" style="color:var(--gold)">${conv}%</div></div>
+    </div>
+    <h3>По товарам</h3>
+    <table><tr><th>Товар</th><th>👁</th><th>🛒</th><th>💰</th><th>Конв.</th></tr>
+    ${fn.products.map(p=>`<tr><td>${p.icon} ${esc(p.title)}</td><td>${p.views}</td><td>${p.carts}</td><td style="color:var(--green);font-weight:600">${p.purchases}</td><td>${p.conv}%</td></tr>`).join('')||'<tr><td colspan="5" class="muted">Нет данных</td></tr>'}</table>`;
+  } else {
+    body=`<h3>Баланс и вывод</h3>
+    <div class="stats">
+      <div class="stat"><b style="color:var(--green)">${fmt(user.balance)}</b><span>К выводу</span></div>
+      <div class="stat"><b>${fmt(revenue)}</b><span>Оборот</span></div>
+      <div class="stat"><b style="color:var(--accent)">${fmt(user.refEarnings||0)}</b><span>Реферальные</span></div>
+    </div>
+    <div style="background:var(--panel2);padding:14px;border-radius:10px">
+      <p class="muted" style="margin-bottom:10px">Код: <b style="color:var(--text)">${user.refCode}</b></p>
+      <div class="row"><input id="paySum" type="number" placeholder="Сумма (мин. ${settings.minPayout} ₽)" style="max-width:200px"><button class="btn" onclick="requestPayout()">Запросить</button></div>
+    </div>
+    <h3 style="margin-top:16px">История</h3><table><tr><th>Дата</th><th>Сумма</th><th>Статус</th></tr>
+    ${P.map(p=>`<tr><td>${p.date}</td><td>${fmt(p.amount)}</td><td>${{pending:'⏳',paid:'✓',rejected:'✕'}[p.status]||p.status}</td></tr>`).join('')||'<tr><td colspan="3" class="muted">Нет заявок</td></tr>'}</table>`;
+  }
+  v.innerHTML=`<div class="panel">
+    <h2>Кабинет продавца: ${esc(user.name)}</h2>
+    <div class="tabs">
+      <button class="tab ${sTab==='goods'?'active':''}" onclick="sTab='goods';renderSeller(document.getElementById('view'))">📦 Товары</button>
+      <button class="tab ${sTab==='orders'?'active':''}" onclick="sTab='orders';renderSeller(document.getElementById('view'))">📋 Продажи</button>
+      <button class="tab ${sTab==='analytics'?'active':''}" onclick="sTab='analytics';renderSeller(document.getElementById('view'))">📊 Аналитика</button>
+      <button class="tab ${sTab==='funnel'?'active':''}" onclick="sTab='funnel';renderSeller(document.getElementById('view'))">🎯 Воронка</button>
+      <button class="tab ${sTab==='money'?'active':''}" onclick="sTab='money';renderSeller(document.getElementById('view'))">💰 Баланс</button>
+    </div>${body}</div>`;
+}
+async function addProduct(e){e.preventDefault();const f=new FormData(e.target);const body={};f.forEach((v,k)=>body[k]=v);const r=await api('/api/products','POST',body);if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}toast('✓ Отправлено на модерацию');await reload();renderSeller(document.getElementById('view'));}
+async function delProduct(id){if(!confirm('Удалить?'))return;await api('/api/products/delete','POST',{id});toast('Удалено','info');await reload();renderSeller(document.getElementById('view'));}
+async function requestPayout(){const sum=+document.getElementById('paySum').value;const r=await api('/api/payouts','POST',{sum});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}toast('Заявка создана','info');user=await api('/api/me');renderHeader();renderSeller(document.getElementById('view'));}
+
+/* РЕДАКТОР ТОВАРА */
+async function openEditProduct(id){
+  const all=await api('/api/products/mine')||[];
+  const p=all.find(x=>x.id===id);
+  if(!p){toast('Товар не найден','err');return}
+  document.getElementById('infoBody').innerHTML=`
+    <h3>✏️ Редактировать товар</h3>
+    <div class="fg"><label class="lbl">Название</label><input id="epTitle" value="${esc(p.title)}"></div>
+    <div class="row">
+      <div class="fg" style="flex:1"><label class="lbl">Категория</label>
+        <select id="epCat">${['Игровые ключи','Программное обеспечение','Подписки','Обучение'].map(c=>`<option ${c===p.cat?'selected':''}>${c}</option>`).join('')}</select>
+      </div>
+      <div class="fg" style="flex:1"><label class="lbl">Иконка</label><input id="epIcon" value="${esc(p.icon)}" maxlength="4"></div>
+    </div>
+    <div class="row">
+      <div class="fg" style="flex:1"><label class="lbl">Цена, ₽</label><input id="epPrice" type="number" value="${p.price}"></div>
+      <div class="fg" style="flex:1"><label class="lbl">Старая цена</label><input id="epOld" type="number" value="${p.old}"></div>
+    </div>
+    <div class="fg"><label class="lbl">Теги (через запятую)</label><input id="epTags" value="${esc((p.tags||[]).join(', '))}"></div>
+    <div class="fg"><label class="lbl">Описание</label><textarea id="epDesc" rows="3">${esc(p.desc)}</textarea></div>
+    <h4 style="margin:14px 0 8px">🔑 Ключи в наличии (${p.pool.length})</h4>
+    <div style="max-height:180px;overflow:auto;margin-bottom:10px">
+      ${p.pool.map((k,i)=>`<div class="key-item"><span style="flex:1">${esc(k)}</span><button onclick="removeKey('${p.id}',${i})">✕</button></div>`).join('')||'<p class="muted">Нет ключей</p>'}
+    </div>
+    <div class="fg"><label class="lbl">Добавить ключи (по одному в строке)</label><textarea id="epAddKeys" rows="3" placeholder="XXXX-XXXX-XXXX-XXXX"></textarea></div>
+    <div class="fg"><label class="lbl"><input type="checkbox" id="epModerate" style="width:auto;margin-right:6px" checked> Отправить на повторную модерацию</label></div>
+    <button class="btn green" style="width:100%" onclick="saveEditProduct('${p.id}')">💾 Сохранить</button>
+  `;
+  openM('infoM');
+}
+async function removeKey(id,idx){
+  await api('/api/products/update','POST',{id,removeKey:idx,requireModeration:false});
+  toast('Ключ удалён','info');
+  openEditProduct(id);
+  products=await api('/api/products');
+}
+async function saveEditProduct(id){
+  const body={
+    id,
+    title:document.getElementById('epTitle').value.trim(),
+    cat:document.getElementById('epCat').value,
+    icon:document.getElementById('epIcon').value.trim()||'📦',
+    price:+document.getElementById('epPrice').value,
+    old:+document.getElementById('epOld').value||0,
+    tags:document.getElementById('epTags').value,
+    desc:document.getElementById('epDesc').value.trim(),
+    requireModeration:document.getElementById('epModerate').checked
+  };
+  const addKeys=document.getElementById('epAddKeys').value.trim();
+  if(addKeys)body.addKeys=addKeys;
+  if(!body.title||!body.price){toast('Заполните название и цену','err');return}
+  const r=await api('/api/products/update','POST',body);
+  if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}
+  closeAll();toast('✓ Сохранено','info');
+  await reload();renderSeller(document.getElementById('view'));
+}
+
+/* АДМИН */
+async function renderAdmin(v){
+  if(!user||user.role!=='admin'){nav('catalog');return}
+  const [stats,allUsers,allProducts,allOrders,allPayouts,allDisputes,pendingReviews,emails]=await Promise.all([
+    api('/api/admin/stats'),api('/api/admin/users'),api('/api/admin/products'),
+    api('/api/admin/orders'),api('/api/admin/payouts'),api('/api/admin/disputes'),api('/api/admin/reviews'),api('/api/admin/emails')
+  ]);
+  const st=stats||{};const U=allUsers||[];const PR=allProducts||[];const O=allOrders||[];const PY=allPayouts||[];const D=allDisputes||[];const RV=pendingReviews||[];const EM=emails||[];
+  let body='';
+  if(aTab==='moderation'){
+    const pp=PR.filter(p=>p.status==='pending');const od=D.filter(d=>d.status==='open');
+    body=`<h3>На модерации (${pp.length})</h3>${pp.length?`<table><tr><th>Товар</th><th>Продавец</th><th>Цена</th><th></th></tr>${pp.map(p=>`<tr><td>${p.icon} ${esc(p.title)}</td><td>${esc(p.seller)}</td><td>${fmt(p.price)}</td><td class="row"><button class="btn sm green" onclick="approveP('${p.id}',1)">✓</button><button class="btn sm red" onclick="approveP('${p.id}',0)">✕</button></td></tr>`).join('')}</table>`:'<p class="muted">Пусто</p>'}
+    <h3 style="margin-top:18px">Споры (${od.length})</h3>${od.length?od.map(d=>`<div style="background:var(--panel2);padding:12px;border-radius:10px;margin:8px 0"><div class="row" style="justify-content:space-between"><b>Спор #${d.id}</b><span class="muted">${d.date}</span></div><p style="margin:6px 0">Заказ #${d.orderId} · ${esc(d.title)}</p><p class="muted">${esc(d.buyerName)} · ${esc(d.reason)}</p><p style="margin:6px 0">${esc(d.text)}</p><div class="row"><button class="btn sm green" onclick="resolveD(${d.id},'buyer')">Покупателю</button><button class="btn sm" onclick="resolveD(${d.id},'seller')">Продавцу</button></div></div>`).join(''):'<p class="muted">Пусто</p>'}`;
+  } else if(aTab==='reviews'){
+    body=`<h3>Отзывы (${RV.length})</h3>${RV.length?RV.map(r=>`<div style="background:var(--panel2);padding:14px;border-radius:10px;margin:10px 0"><div class="row" style="justify-content:space-between;margin-bottom:8px"><div><b>${r.productIcon} ${esc(r.productTitle)}</b></div><div style="color:var(--gold)">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div></div><p class="muted" style="font-size:12.5px;margin-bottom:6px">${esc(r.user)} · ${r.date}</p><p style="margin:8px 0;padding:10px;background:var(--panel);border-radius:8px">${esc(r.text)}</p><div class="row"><button class="btn sm green" onclick="resolveReview('${r.productId}','${r.id}',1)">✓ Опубликовать</button><button class="btn sm red" onclick="resolveReview('${r.productId}','${r.id}',0)">✕ Отклонить</button></div></div>`).join(''):'<p class="muted">Пусто</p>'}`;
+  } else if(aTab==='payouts'){
+    const pp=PY.filter(p=>p.status==='pending');
+    body=`<h3>Выплаты (${pp.length})</h3><table><tr><th>ID</th><th>Дата</th><th>Продавец</th><th>Сумма</th><th></th></tr>${pp.map(p=>`<tr><td>#${p.id}</td><td>${p.date}</td><td>${esc(p.seller)}</td><td>${fmt(p.amount)}</td><td class="row"><button class="btn sm green" onclick="payoutR(${p.id},1)">✓</button><button class="btn sm red" onclick="payoutR(${p.id},0)">✕</button></td></tr>`).join('')||'<tr><td colspan="5" class="muted">Пусто</td></tr>'}</table>`;
+  } else if(aTab==='users'){
+    body=`<h3>Пользователи (${U.length})</h3><table><tr><th>Имя</th><th>Email</th><th>Роль</th><th>Баланс</th><th>Статус</th><th></th></tr>${U.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.email)}</td><td>${x.role}</td><td>${fmt(x.balance)}</td><td>${x.blocked?'<span style="color:var(--red)">Блок</span>':'Активен'}</td><td>${x.role!=='admin'?`<button class="btn sm ${x.blocked?'green':'red'}" onclick="blockU('${x.id}')">${x.blocked?'Разблок':'Заблок'}</button>`:''}</td></tr>`).join('')}</table>`;
+  } else if(aTab==='orders'){
+    body=`<div class="row" style="justify-content:space-between;margin-bottom:12px"><h3 style="margin:0">Заказы (${O.length})</h3><button class="btn sm ghost" onclick="exportOrders()">📥 CSV</button></div><table><tr><th>ID</th><th>Дата</th><th>Покупатель</th><th>Сумма</th><th>Кэшбэк</th><th>Статус</th></tr>${O.map(o=>`<tr><td>#${o.id}</td><td>${o.date}</td><td>${esc(o.buyerName)}</td><td>${fmt(o.total)}</td><td>${o.cashback?fmt(o.cashback):'—'}</td><td>${o.status}</td></tr>`).join('')||'<tr><td colspan="6" class="muted">Пусто</td></tr>'}</table>`;
+  } else if(aTab==='emails'){
+    const st2=st;
+    body=`<div class="row" style="justify-content:space-between;margin-bottom:12px"><h3 style="margin:0">📧 Email (${EM.length})</h3><div class="row"><button class="btn sm" onclick="sendTestEmail()">📨 Тест</button><button class="btn sm red" onclick="clearEmails()">Очистить</button></div></div>
+    <div class="stats" style="margin-bottom:16px">
+      <div class="stat"><b style="color:var(--green)">${st2.emailsSent||0}</b><span>Отправлено</span></div>
+      <div class="stat"><b style="color:var(--gold)">${st2.emailsSim||0}</b><span>Симуляция</span></div>
+      <div class="stat"><b style="color:var(--red)">${st2.emailsErr||0}</b><span>Ошибок</span></div>
+      <div class="stat"><b>${st2.resendConfigured?'✅':'❌'}</b><span>Resend API</span></div>
+    </div>
+    ${!st2.resendConfigured?`<div style="background:rgba(255,209,102,.1);color:#ffd28a;padding:12px;border-radius:10px;font-size:12.5px;margin-bottom:14px">💡 Для реальной отправки установи переменную <b>RESEND_API_KEY</b> перед запуском сервера. Пока письма выводятся в консоль.</div>`:''}
+    ${EM.length?EM.slice(0,30).map(m=>`<div style="background:var(--panel2);padding:12px;border-radius:10px;margin:8px 0">
+      <div class="row" style="justify-content:space-between"><b>${esc(m.subject)}</b><span class="badge ${m.status==='sent'?'':m.status==='error'?'':'b-warn'}" style="font-size:10px">${m.status}</span></div>
+      <p class="muted" style="font-size:12px;margin-top:4px">${esc(m.to)} · ${m.date} · <span style="color:var(--accent)">${m.type}</span>${m.error?` · <span style="color:var(--red)">${esc(m.error)}</span>`:''}</p>
+      <pre style="white-space:pre-wrap;font-family:inherit;font-size:12.5px;margin-top:8px;padding:8px;background:var(--panel);border-radius:6px">${esc(m.text)}</pre>
+    </div>`).join(''):'<p class="muted">Писем нет</p>'}`;
+  } else {
+    body=`<h3>Настройки</h3>
+    <div class="row">
+      <div class="fg" style="flex:1"><label class="lbl">Комиссия, %</label><input id="sC" type="number" step="0.5" value="${settings.commission*100}"></div>
+      <div class="fg" style="flex:1"><label class="lbl">Реф. бонус, %</label><input id="sR" type="number" step="0.5" value="${settings.refRate*100}"></div>
+      <div class="fg" style="flex:1"><label class="lbl">Мин. вывод</label><input id="sM" type="number" value="${settings.minPayout}"></div>
+    </div>
+    <div class="row">
+      <div class="fg" style="flex:1"><label class="lbl">Кэшбэк, %</label><input id="sCb" type="number" step="0.1" value="${settings.cashbackRate*100}"></div>
+      <div class="fg" style="flex:1"><label class="lbl">Бонус пригласившему, %</label><input id="sRb" type="number" step="0.1" value="${settings.refBuyerRate*100}"></div>
+    </div>
+    <div class="fg"><label class="lbl"><input type="checkbox" id="sEm" ${settings.emailEnabled?'checked':''} style="width:auto;margin-right:6px"> Включить email</label></div>
+    <button class="btn" onclick="saveSettings()">Сохранить</button>
+    <div class="stats" style="margin-top:16px">
+      <div class="stat"><b style="color:var(--green)">${fmt(st.totalCashback||0)}</b><span>Кэшбэк</span></div>
+      <div class="stat"><b style="color:var(--accent)">${fmt(st.totalRef||0)}</b><span>Рефералам</span></div>
+      <div class="stat"><b>${st.emailsSent||0}</b><span>Email отправлено</span></div>
+    </div>
+    <h3 style="margin-top:20px">Промокоды</h3>
+    <table><tr><th>Код</th><th>Скидка</th><th>Использован</th><th></th></tr>${promos.map(p=>`<tr><td><b>${p.code}</b></td><td>${p.discount}%</td><td>${p.uses}</td><td><button class="btn sm red" onclick="delPromo('${p.code}')">🗑️</button></td></tr>`).join('')}</table>
+    <div class="row" style="margin-top:10px"><input id="npC" placeholder="КОД" style="max-width:120px"><input id="npD" type="number" placeholder="%" style="max-width:80px"><button class="btn sm" onclick="addPromo()">+</button></div>`;
+  }
+  v.innerHTML=`<div class="panel">
+    <h2>⚙️ Админ-панель</h2>
+    <div class="stats">
+      <div class="stat"><b>${st.users||0}</b><span>Пользователей</span></div>
+      <div class="stat"><b>${st.products||0}</b><span>Товаров</span></div>
+      <div class="stat"><b>${st.orders||0}</b><span>Заказов</span></div>
+      <div class="stat"><b style="color:var(--green)">${fmt(st.revenue||0)}</b><span>Оборот</span></div>
+      <div class="stat"><b style="color:var(--gold)">${fmt(st.commission||0)}</b><span>Комиссия</span></div>
+    </div>
+    <div class="tabs">
+      <button class="tab ${aTab==='moderation'?'active':''}" onclick="aTab='moderation';renderAdmin(document.getElementById('view'))">Модерация${st.pendingProducts+st.openDisputes?' ('+(st.pendingProducts+st.openDisputes)+')':''}</button>
+      <button class="tab ${aTab==='reviews'?'active':''}" onclick="aTab='reviews';renderAdmin(document.getElementById('view'))">📝 Отзывы${st.pendingReviews?' ('+st.pendingReviews+')':''}</button>
+      <button class="tab ${aTab==='payouts'?'active':''}" onclick="aTab='payouts';renderAdmin(document.getElementById('view'))">Выплаты${st.pendingPayouts?' ('+st.pendingPayouts+')':''}</button>
+      <button class="tab ${aTab==='users'?'active':''}" onclick="aTab='users';renderAdmin(document.getElementById('view'))">Юзеры</button>
+      <button class="tab ${aTab==='orders'?'active':''}" onclick="aTab='orders';renderAdmin(document.getElementById('view'))">Заказы</button>
+      <button class="tab ${aTab==='emails'?'active':''}" onclick="aTab='emails';renderAdmin(document.getElementById('view'))">📧 Email</button>
+      <button class="tab ${aTab==='settings'?'active':''}" onclick="aTab='settings';renderAdmin(document.getElementById('view'))">Настройки</button>
+    </div>${body}</div>`;
+}
+async function approveP(id,approve){await api('/api/admin/products/approve','POST',{id,approve});toast(approve?'Одобрено':'Отклонено');await reload();renderAdmin(document.getElementById('view'))}
+async function payoutR(id,approve){await api('/api/admin/payouts/resolve','POST',{id,approve});toast('Готово');await reload();renderAdmin(document.getElementById('view'))}
+async function blockU(id){await api('/api/admin/users/block','POST',{id});await reload();renderAdmin(document.getElementById('view'))}
+async function resolveD(id,winner){await api('/api/admin/disputes/resolve','POST',{id,winner});toast('Спор решён');await reload();renderAdmin(document.getElementById('view'))}
+async function resolveReview(productId,id,approve){await api('/api/admin/reviews/resolve','POST',{productId,id,approve});toast(approve?'✓ Опубликован':'Отклонён','info');await reload();renderAdmin(document.getElementById('view'))}
+async function saveSettings(){
+  await api('/api/admin/settings','POST',{
+    commission:+document.getElementById('sC').value/100,
+    refRate:+document.getElementById('sR').value/100,
+    minPayout:+document.getElementById('sM').value,
+    cashbackRate:+document.getElementById('sCb').value/100,
+    refBuyerRate:+document.getElementById('sRb').value/100,
+    emailEnabled:document.getElementById('sEm').checked
+  });
+  settings=await api('/api/settings');toast('✓ Сохранено');
+}
+async function addPromo(){const code=document.getElementById('npC').value.trim().toUpperCase();const discount=+document.getElementById('npD').value;const r=await api('/api/promos/add','POST',{code,discount,limit:0});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}promos=await api('/api/promos');toast('✓ Добавлен');renderAdmin(document.getElementById('view'))}
+async function delPromo(code){if(!confirm('Удалить?'))return;await api('/api/promos/delete','POST',{code});promos=await api('/api/promos');renderAdmin(document.getElementById('view'))}
+async function sendTestEmail(){const to=prompt('Email получателя:','buyer@demo.ru');if(!to)return;await api('/api/admin/test-email','POST',{to});toast('✓ Отправлено (см. консоль)');await reload();renderAdmin(document.getElementById('view'))}
+async function clearEmails(){if(!confirm('Очистить?'))return;await api('/api/admin/emails/clear','POST');toast('Очищено','info');await reload();renderAdmin(document.getElementById('view'))}
+function exportOrders(){
+  api('/api/admin/orders').then(orders=>{
+    if(!orders||!orders.length){toast('Нет заказов','err');return}
+    const rows=[['ID','Дата','Покупатель','Товары','Сумма','Кэшбэк','Комиссия','Статус']];
+    orders.forEach(o=>rows.push([o.id,o.date,o.buyerName,(o.items||[]).map(i=>i.title).join('; '),o.total,o.cashback||0,o.commission||0,o.status]));
+    const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+    const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='keyhub_orders.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);toast('✓ Экспортировано');
+  });
+}
+
+/* АВТОРИЗАЦИЯ */
+function openAuth(){const ref=new URLSearchParams(location.search).get('ref')||'';openM('authM');authTab('login',ref)}
+function authTab(m,ref){ref=ref||new URLSearchParams(location.search).get('ref')||'';document.getElementById('tL').classList.toggle('active',m==='login');document.getElementById('tR').classList.toggle('active',m==='reg');const b=document.getElementById('authBody');
+  if(m==='login'){b.innerHTML=`<div class="fg"><label class="lbl">Email</label><input id="lE" value="buyer@demo.ru"></div><div class="fg"><label class="lbl">Пароль</label><input id="lP" type="password" value="buyer"></div><button class="btn" style="width:100%" onclick="doLogin()">Войти</button><p class="muted" style="font-size:12px;margin-top:12px;text-align:center;line-height:1.7">buyer@demo.ru / buyer<br>seller@demo.ru / seller<br>admin@demo.ru / admin</p>`;}
+  else{b.innerHTML=`<div class="fg"><label class="lbl">Имя</label><input id="rN"></div><div class="fg"><label class="lbl">Email</label><input id="rE" type="email"></div><div class="fg"><label class="lbl">Пароль</label><input id="rP" type="password"></div><div class="fg"><label class="lbl">Роль</label><select id="rR"><option value="buyer">Покупатель</option><option value="seller">Продавец</option></select></div><div class="fg"><label class="lbl">Реф. код</label><input id="rRef" value="${esc(ref)}"></div><button class="btn green" style="width:100%" onclick="doRegister()">Создать</button>`;}
+}
+async function doLogin(){const r=await api('/api/login','POST',{email:document.getElementById('lE').value,pass:document.getElementById('lP').value});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}closeAll();toast('Добро пожаловать, '+r.name);await reload();}
+async function doRegister(){const r=await api('/api/register','POST',{name:document.getElementById('rN').value,email:document.getElementById('rE').value,pass:document.getElementById('rP').value,role:document.getElementById('rR').value,ref:document.getElementById('rRef').value});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}closeAll();toast('Аккаунт создан');await reload();}
+async function logout(){await api('/api/logout','POST');cart=[];saveCart();user=null;toast('Вы вышли');nav('catalog');reload()}
+async function doTopup(){const sum=+document.getElementById('tuSum').value;const r=await api('/api/topup','POST',{sum});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}closeAll();user=await api('/api/me');toast('✓ Пополнено');renderHeader();}
+function openSettings(){openM('infoM');document.getElementById('infoBody').innerHTML=`<h3>Настройки</h3><div class="fg"><label class="lbl">Имя</label><input id="stN" value="${esc(user.name)}"></div><button class="btn green" style="width:100%" onclick="saveProfile()">Сохранить</button><h3 style="margin-top:20px">Смена пароля</h3><div class="fg"><label class="lbl">Текущий</label><input id="stO" type="password"></div><div class="fg"><label class="lbl">Новый</label><input id="stP" type="password"></div><button class="btn" style="width:100%" onclick="changePass()">Сменить</button><h3 style="margin-top:20px">Уведомления</h3><button class="btn ghost" style="width:100%" onclick="enablePush()">📢 Включить push</button>`;}
+async function saveProfile(){const r=await api('/api/settings','POST',{name:document.getElementById('stN').value.trim()});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}user=r;closeAll();toast('✓ Сохранено');renderHeader();}
+async function changePass(){const r=await api('/api/settings','POST',{oldPass:document.getElementById('stO').value,newPass:document.getElementById('stP').value});if(!r||r.error){toast((r&&r.error)||'Ошибка','err');return}closeAll();toast('✓ Пароль изменён');}
+
+function openNotif(e){e.stopPropagation();const p=document.getElementById('notifPanel');p.classList.toggle('open');if(p.classList.contains('open'))document.getElementById('notifList').innerHTML=notifications.length?notifications.map(n=>`<div class="item ${n.read?'':'unread'}">${esc(n.text)}<div class="time">${n.date}</div></div>`).join(''):'<div class="item muted">Пусто</div>';}
+async function markRead(){await api('/api/notifications/read','POST');notifications=await api('/api/notifications');renderHeader();document.getElementById('notifList').innerHTML=notifications.map(n=>`<div class="item ${n.read?'':'unread'}">${esc(n.text)}<div class="time">${n.date}</div></div>`).join('')||'<div class="item muted">Пусто</div>';}
+
+function renderStatic(v,page){
+  const data={
+    faq:{title:'FAQ',body:`<h3>Как получить товар?</h3><p class="muted" style="margin-bottom:10px">Автоматически после оплаты — в «Моих покупках».</p>
+      <h3>Кэшбэк?</h3><p class="muted" style="margin-bottom:10px">${Math.round(settings.cashbackRate*100)}% от заказа на баланс.</p>
+      <h3>Партнёрка?</h3><p class="muted" style="margin-bottom:10px">${Math.round(settings.refBuyerRate*100)}% с покупок приглашённых.</p>
+      <h3>Как установить приложение?</h3><p class="muted" style="margin-bottom:10px">В Chrome на телефоне — «Установить» в шапке или меню браузера.</p>`},
+    offer:{title:'Оферта',body:`<p class="muted" style="line-height:1.7">Публичная оферта о купле-продаже цифровых товаров. Эскроу 3 дня.</p>`},
+    privacy:{title:'Конфиденциальность',body:`<p class="muted" style="line-height:1.7">Храним email, имя и историю заказов для оказания услуг.</p>`},
+    contacts:{title:'Контакты',body:`<p><b>Email:</b> support@keyhub.io</p><p style="margin-top:8px"><b>Telegram:</b> @keyhub_support</p>`}
+  }[page];
+  v.innerHTML=`<div class="panel"><h2>${data.title}</h2>${data.body}</div>`;
+}
+
+document.addEventListener('click',e=>{const p=document.getElementById('notifPanel');if(p&&!p.contains(e.target)&&!e.target.closest('button[onclick^="openNotif"]'))p.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll();if(e.key==='/'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){e.preventDefault();document.getElementById('searchInp').focus()}});
+
+const themeBtn=document.getElementById('themeBtn');
+themeBtn.textContent=(localStorage.getItem('pm_theme')||'dark')==='dark'?'🌙':'☀️';
+
+reload();
+</script>
+</body>
+</html>

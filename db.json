@@ -1,0 +1,775 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "email": "admin@demo.ru",
+      "pass": "2325734266837fdca484c267fd8fcd7f2e4f8f935f4cb43c215742a8cba2aed6",
+      "name": "Хуесос228",
+      "role": "admin",
+      "balance": 0,
+      "refCode": "ADMIN",
+      "referredBy": null,
+      "refEarnings": 0,
+      "blocked": false,
+      "createdAt": "2025-01-01"
+    },
+    {
+      "id": "u2",
+      "email": "seller@demo.ru",
+      "pass": "7014174e6c07d4c9aa18510886dfbf43786d7ce785155a93dc83aa2669e18214",
+      "name": "GameKeysShop",
+      "role": "seller",
+      "balance": 2468,
+      "refCode": "GK1",
+      "referredBy": null,
+      "refEarnings": 0,
+      "blocked": false,
+      "verified": true,
+      "createdAt": "2025-01-15"
+    },
+    {
+      "id": "u3",
+      "email": "buyer@demo.ru",
+      "pass": "e9538dc49ecd65c8a2055654b2b37ffeb7dccf7e8ebbe2c21454ecaead351e55",
+      "name": "Покупатель Демо",
+      "role": "buyer",
+      "balance": 2454,
+      "refCode": "BUY1",
+      "referredBy": null,
+      "refEarnings": 0,
+      "blocked": false,
+      "createdAt": "2025-02-01"
+    }
+  ],
+  "products": [
+    {
+      "id": "aeeecb21d95d",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Cyberpunk 2077 Steam Key",
+      "desc": "Cyberpunk 2077 Steam Key — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Игровые ключи",
+      "icon": "🌆",
+      "price": 1499,
+      "old": 2999,
+      "type": "key",
+      "pool": [
+        "KEY-278F2FED913B-29965028A721",
+        "KEY-A9360E5A575C-5F62595006A3",
+        "KEY-7221065A72C2-79E82B027A7F",
+        "KEY-059B33F813FA-A66A36010259",
+        "KEY-020C590AB856-EF9FCB4D2016",
+        "KEY-0E713A743C84-1629CDC90101",
+        "KEY-0273285C7EB3-ACA5527D3B72",
+        "KEY-2D1D037F1A11-C0B5FDD9FAA0"
+      ],
+      "rating": 4.8,
+      "sales": 846,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": null,
+      "reviews": [
+        {
+          "id": "d58f86304d82",
+          "userId": "u3",
+          "user": "Покупатель Демо",
+          "rating": 5,
+          "text": "Ключ активировался сразу, спасибо!",
+          "date": "10.01.2026",
+          "status": "approved"
+        }
+      ],
+      "createdAt": 1790445049431
+    },
+    {
+      "id": "baa70295d7da",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Windows 11 Pro лицензия",
+      "desc": "Windows 11 Pro лицензия — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Программное обеспечение",
+      "icon": "🪟",
+      "price": 890,
+      "old": 1990,
+      "type": "key",
+      "pool": [
+        "KEY-25914CA835E3-B70F811AAE19",
+        "KEY-78262050EDF8-A8120CD84558",
+        "KEY-7636DEEC78FA-6FE1464A4778",
+        "KEY-7418D5606390-0F4BFAA64221",
+        "KEY-03755AA07502-6C979F3F955C",
+        "KEY-4E105D5379F7-9328532B9047",
+        "KEY-9F3C9A23CDF3-2865B63C3338",
+        "KEY-2C6C044400DA-E5A287361334"
+      ],
+      "rating": 4.8,
+      "sales": 768,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790446489416
+    },
+    {
+      "id": "e7b8f59ff022",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Minecraft Java Edition",
+      "desc": "Minecraft Java Edition — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Игровые ключи",
+      "icon": "🟩",
+      "price": 1299,
+      "old": 1699,
+      "type": "key",
+      "pool": [
+        "KEY-6443EDD4F058-A48CC8D063CA",
+        "KEY-656FBF95F4FA-2EECA6698E19",
+        "KEY-D0E0C09592F0-A2BF05B063B3",
+        "KEY-C95FED944AE2-EECFBCE11B48",
+        "KEY-89EDEFC0CDE0-E0E0E2DFEACB",
+        "KEY-D416821102BC-E0632B8FE878"
+      ],
+      "rating": 5,
+      "sales": 891,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790453305414
+    },
+    {
+      "id": "fa5b7a9f384b",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "YouTube Premium 4 месяца",
+      "desc": "YouTube Premium 4 месяца — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Подписки",
+      "icon": "📺",
+      "price": 599,
+      "old": 899,
+      "type": "key",
+      "pool": [
+        "KEY-ADC0730A01F4-67E988487691",
+        "KEY-0668FDC5D838-F3C3B99E78F5",
+        "KEY-9A5E3DB01DBD-E4218E4DACCF",
+        "KEY-DD3C2A7CA743-CA518581F61F",
+        "KEY-D570E533F4B6-6C3BB9974972",
+        "KEY-4C98179603BC-69E4B7888C6C",
+        "KEY-21F41462884F-4240D4B60AAC",
+        "KEY-A28FF7778867-A051C4DB897C"
+      ],
+      "rating": 4.5,
+      "sales": 391,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": null,
+      "reviews": [],
+      "createdAt": 1790448998783
+    },
+    {
+      "id": "3d8183a95da1",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Microsoft Office 2021",
+      "desc": "Microsoft Office 2021 — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Программное обеспечение",
+      "icon": "📊",
+      "price": 1290,
+      "old": 2990,
+      "type": "key",
+      "pool": [
+        "KEY-2942549F2410-2DD947185DA7",
+        "KEY-C60C5C11C551-B38A7548BB7A",
+        "KEY-93AF0CE3D02E-79F21984B8F0",
+        "KEY-D4C2A95CD49B-50DEED40FD38",
+        "KEY-06D8492F85D9-1603CD388862",
+        "KEY-A6B60D6CEAF3-37CCB80491BC",
+        "KEY-D48FFBF25561-748F9A78D7C5",
+        "KEY-0FE18FF6EEA6-07386BF6F8C4"
+      ],
+      "rating": 5,
+      "sales": 758,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": null,
+      "reviews": [],
+      "createdAt": 1790444863848
+    },
+    {
+      "id": "90765844c01f",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Курс Python с нуля",
+      "desc": "Курс Python с нуля — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Обучение",
+      "icon": "📚",
+      "price": 1990,
+      "old": 4990,
+      "type": "key",
+      "pool": [
+        "KEY-9E08C770CD67-85900740913C",
+        "KEY-DE38416B2042-53C14A0E02A3",
+        "KEY-1032485C54CC-BDFC0C0B9491",
+        "KEY-59A26E026937-F4C517FAA992",
+        "KEY-1742635BC535-B5839E544C6B",
+        "KEY-334B78BA1472-3A780E28CAAA",
+        "KEY-236A3912C620-44FA3CA5844E",
+        "KEY-B3CAC08C597C-39675FB54E4B"
+      ],
+      "rating": 4.6,
+      "sales": 858,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": null,
+      "reviews": [],
+      "createdAt": 1790444708101
+    },
+    {
+      "id": "97be0eb6e7e3",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "EA FC 26 Ultimate",
+      "desc": "EA FC 26 Ultimate — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Игровые ключи",
+      "icon": "🎯",
+      "price": 2799,
+      "old": 3999,
+      "type": "key",
+      "pool": [
+        "KEY-E86CBCCC5708-FA0070B7BC5D",
+        "KEY-5E51DC521FC8-9B61F097090B",
+        "KEY-DFAE2CE046B8-C1CA02675880",
+        "KEY-299FBDBDD410-F9F1E2BE82F7",
+        "KEY-FEB491E74DEF-FA78A67E660B",
+        "KEY-8B9AA499121F-0AD0F839C512",
+        "KEY-42E4BE1640AE-E73F9806CD95",
+        "KEY-F527B4FA69C4-786FE8C2213C"
+      ],
+      "rating": 4.9,
+      "sales": 202,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": null,
+      "reviews": [],
+      "createdAt": 1790447541385
+    },
+    {
+      "id": "06beccf8e50b",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Photoshop плагины",
+      "desc": "Photoshop плагины — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Программное обеспечение",
+      "icon": "🎨",
+      "price": 590,
+      "old": 1490,
+      "type": "key",
+      "pool": [
+        "KEY-FF89B688E40A-C6695053EED3",
+        "KEY-B34C5ABD48CF-EA4FD004EA8A",
+        "KEY-D02278596A40-1AD623A2BAFD",
+        "KEY-4E808F31F1DA-8332176A7FBB",
+        "KEY-362663AEB6A7-CC8E0C228C61",
+        "KEY-DDCDBC07922F-F92E42542351",
+        "KEY-BC60D394377E-8C7DF72B51CC",
+        "KEY-6A23FE60FE49-ECBC1E8BFD44"
+      ],
+      "rating": 4.9,
+      "sales": 255,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790452627538
+    },
+    {
+      "id": "f68e5ebbe54e",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "GTA V Premium Edition",
+      "desc": "GTA V Premium Edition — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Игровые ключи",
+      "icon": "🚗",
+      "price": 990,
+      "old": 1990,
+      "type": "key",
+      "pool": [
+        "KEY-9ABA434F648F-387AF8CA7646",
+        "KEY-B9E4EDD50449-9ABC51DE12D3",
+        "KEY-8D67A1DE97FA-945A4D5B89E8",
+        "KEY-FB006B665048-45D542762659",
+        "KEY-B227B51168F4-D47EE6BE2B17",
+        "KEY-E871BE045767-34353508634D",
+        "KEY-D18718490AE3-0C7DC2E6336C",
+        "KEY-53EF0E6CED4D-57E596EA6168"
+      ],
+      "rating": 4.8,
+      "sales": 374,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790453693503
+    },
+    {
+      "id": "f24b07a55f34",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Discord Nitro 1 месяц",
+      "desc": "Discord Nitro 1 месяц — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Подписки",
+      "icon": "💬",
+      "price": 490,
+      "old": 890,
+      "type": "key",
+      "pool": [
+        "KEY-784BF6F30F18-4C362084F5B5",
+        "KEY-98A7B80A1D2F-2C0395FC0734",
+        "KEY-C1F2DB4709AC-B5AD1AC6980C",
+        "KEY-D65F38ACBB77-753A453811FD",
+        "KEY-0636C3BB7E10-99B43070FBA8",
+        "KEY-78A1FE7B4FEB-AA1E3E2F7473",
+        "KEY-29ADAE158B8A-B517536AF8B7",
+        "KEY-DA51FC0CD90D-4B4E91DBF024"
+      ],
+      "rating": 4.6,
+      "sales": 75,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790451489279
+    },
+    {
+      "id": "4cee12b5c6ad",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Figma Pro 1 год",
+      "desc": "Figma Pro 1 год — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Программное обеспечение",
+      "icon": "🎯",
+      "price": 3990,
+      "old": 8900,
+      "type": "key",
+      "pool": [
+        "KEY-533AC324244C-36DE1B46BAA2",
+        "KEY-B2B40D68A2AC-87B8BAE9F1DB",
+        "KEY-3CCC58ADDADB-CA1DF8E918E3",
+        "KEY-FE358D7DDE97-B70FDF434968",
+        "KEY-6C1ABE35FA91-68E96632A97F",
+        "KEY-94E79D6EE646-282B8EE7E15D",
+        "KEY-F4DD607F3964-5FF8F0D885EA",
+        "KEY-E2B689EB2972-F49F468029FA"
+      ],
+      "rating": 4.9,
+      "sales": 541,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790444558556
+    },
+    {
+      "id": "a2ab8add35f2",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Steam Wallet 1000",
+      "desc": "Steam Wallet 1000 — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Игровые ключи",
+      "icon": "💰",
+      "price": 1090,
+      "old": 0,
+      "type": "key",
+      "pool": [
+        "KEY-10F1B1AC34F9-A0FAC09F385D",
+        "KEY-398D0EF8F155-0E86AA3B7235",
+        "KEY-F4E25DEDC90A-8BB0D20FE35B",
+        "KEY-C7ED08D8C143-704F6B16341E",
+        "KEY-FCE1FD4233A8-D97D70385416",
+        "KEY-F6035EC3B8AE-0524B6FCE795",
+        "KEY-4F5423EA4B96-8E91D95793F2",
+        "KEY-E25D8A171963-ACB9D778DD5D"
+      ],
+      "rating": 4.5,
+      "sales": 61,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790446181231
+    },
+    {
+      "id": "fd5104295dfa",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Netflix Premium 1 месяц",
+      "desc": "Netflix Premium 1 месяц — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Подписки",
+      "icon": "🎬",
+      "price": 690,
+      "old": 0,
+      "type": "key",
+      "pool": [
+        "KEY-BB874FCF752D-6B3B2BB42427",
+        "KEY-AC7D977189C8-EE06795ED570",
+        "KEY-66753EC8BF57-2057B48733A6",
+        "KEY-5AAF2CF31308-8FDD2F87A7C1",
+        "KEY-ABEA790B5C35-DA7ADB6E5D83",
+        "KEY-F9C2DDAB72C6-3EA9A0D055E9",
+        "KEY-80D95E76959B-519DFFF3B977",
+        "KEY-47AADD5C0BE9-ABEB50A994D3"
+      ],
+      "rating": 5,
+      "sales": 640,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": null,
+      "reviews": [],
+      "createdAt": 1790449751989
+    },
+    {
+      "id": "45e438eb3000",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Adobe Photoshop 1 месяц",
+      "desc": "Adobe Photoshop 1 месяц — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Программное обеспечение",
+      "icon": "🎨",
+      "price": 890,
+      "old": 1490,
+      "type": "key",
+      "pool": [
+        "KEY-3080F7ECB30E-723D0DC08657",
+        "KEY-E758B8BC85C5-AD7126A2A679",
+        "KEY-5418A6F9C290-0E39315C600D",
+        "KEY-770561A44BFE-685DAD18F90A",
+        "KEY-85BCFCFFDF75-20F5E6C7D926",
+        "KEY-5FF42ED09A83-A49D808D5C6A",
+        "KEY-A962B1D4D779-81E53213DEC5",
+        "KEY-0FEBDD448581-8598312DA650"
+      ],
+      "rating": 4.6,
+      "sales": 269,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790448988334
+    },
+    {
+      "id": "923471795925",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Spotify Premium 3 месяца",
+      "desc": "Spotify Premium 3 месяца — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Подписки",
+      "icon": "🎵",
+      "price": 790,
+      "old": 1290,
+      "type": "key",
+      "pool": [
+        "KEY-C30BF095A14D-26F2EE47286A",
+        "KEY-EABE7FB51629-968080EA7DCE",
+        "KEY-CEC140CAEDE3-338F357EE469",
+        "KEY-ED3194AE3686-D28A0E003D19",
+        "KEY-9D28F633F222-4B6F49E87DE2",
+        "KEY-9C72957ABE62-E9058889104D",
+        "KEY-9C6706054DB1-E66653EFE97C",
+        "KEY-515B7D3EA986-5BE680CDEC4F"
+      ],
+      "rating": 4.7,
+      "sales": 299,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": "Хит",
+      "reviews": [],
+      "createdAt": 1790449299689
+    },
+    {
+      "id": "a908f8b5c116",
+      "sellerId": "u2",
+      "seller": "GameKeysShop",
+      "title": "Xbox Game Pass Ultimate",
+      "desc": "Xbox Game Pass Ultimate — цифровой товар с моментальной выдачей. Активация по ключу, регион РФ.",
+      "cat": "Подписки",
+      "icon": "🟢",
+      "price": 2490,
+      "old": 3990,
+      "type": "key",
+      "pool": [
+        "KEY-15C3366B46FC-CB33E926A398",
+        "KEY-1B4E0FAECA95-1628AB90B491",
+        "KEY-175B626569BE-95F8592B96A1",
+        "KEY-3561599BC9B2-7893CA413E6C",
+        "KEY-A12395380B73-D262B2D24CD2",
+        "KEY-762D9C4DE282-023313368D55",
+        "KEY-BAC761F12DE8-26A4957CDD61",
+        "KEY-86B268BD493A-06A8E4F47E16"
+      ],
+      "rating": 4.6,
+      "sales": 652,
+      "status": "approved",
+      "tags": [
+        "digital"
+      ],
+      "badge": null,
+      "reviews": [],
+      "createdAt": 1790445445791
+    }
+  ],
+  "orders": [
+    {
+      "id": 1016,
+      "buyerId": "u3",
+      "buyerName": "Покупатель Демо",
+      "items": [
+        {
+          "productId": "e7b8f59ff022",
+          "title": "Minecraft Java Edition",
+          "price": 1299,
+          "item": "KEY-C0C5AA8B2F45-286DB1AAD823",
+          "seller": "GameKeysShop",
+          "sellerId": "u2"
+        },
+        {
+          "productId": "e7b8f59ff022",
+          "title": "Minecraft Java Edition",
+          "price": 1299,
+          "item": "KEY-2ACD0B058D9F-378ABD76EA70",
+          "seller": "GameKeysShop",
+          "sellerId": "u2"
+        }
+      ],
+      "total": 2598,
+      "discount": 0,
+      "cashback": 52,
+      "refBonus": 0,
+      "commission": 130,
+      "status": "paid",
+      "date": "26.09.2026, 23:24:36",
+      "reviewed": false
+    }
+  ],
+  "payouts": [],
+  "disputes": [],
+  "notifications": [
+    {
+      "id": 1002,
+      "userId": "u1",
+      "text": "✏️ Товар обновлён: Cyberpunk 2077 Steam Key",
+      "date": "26.09.2026, 23:23:27",
+      "read": true
+    },
+    {
+      "id": 1003,
+      "userId": "u2",
+      "text": "✓ Товар «Cyberpunk 2077 Steam Key» одобрен",
+      "date": "26.09.2026, 23:24:00",
+      "read": false
+    },
+    {
+      "id": 1011,
+      "userId": "u2",
+      "text": "💰 Продажа: Minecraft Java Edition +1234 ₽",
+      "date": "26.09.2026, 23:24:36",
+      "read": false
+    },
+    {
+      "id": 1013,
+      "userId": "u2",
+      "text": "💰 Продажа: Minecraft Java Edition +1234 ₽",
+      "date": "26.09.2026, 23:24:36",
+      "read": false
+    },
+    {
+      "id": 1015,
+      "userId": "u3",
+      "text": "💸 Кэшбэк за покупку: +52 ₽",
+      "date": "26.09.2026, 23:24:36",
+      "read": false
+    },
+    {
+      "id": 1017,
+      "userId": "u3",
+      "text": "✓ Заказ #1016 оплачен",
+      "date": "26.09.2026, 23:24:36",
+      "read": false
+    }
+  ],
+  "emails": [
+    {
+      "id": 1000,
+      "to": "buyer@demo.ru",
+      "subject": "Тестовое письмо",
+      "text": "Это тестовое сообщение от KeyHub.",
+      "type": "test",
+      "date": "26.09.2026, 23:21:52",
+      "status": "simulated"
+    },
+    {
+      "id": 1001,
+      "to": "sviridovar8@gmail.com",
+      "subject": "Тестовое письмо",
+      "text": "Это тестовое сообщение от KeyHub.",
+      "type": "test",
+      "date": "26.09.2026, 23:22:02",
+      "status": "simulated"
+    },
+    {
+      "id": 1004,
+      "to": "seller@demo.ru",
+      "subject": "Товар одобрен",
+      "text": "Товар «Cyberpunk 2077 Steam Key» успешно прошёл модерацию.",
+      "type": "moderation",
+      "date": "26.09.2026, 23:24:00",
+      "status": "simulated"
+    },
+    {
+      "id": 1012,
+      "to": "seller@demo.ru",
+      "subject": "Новая продажа",
+      "text": "Товар: Minecraft Java Edition\nСумма: 1234 ₽ зачислена на баланс.",
+      "type": "sale",
+      "date": "26.09.2026, 23:24:36",
+      "status": "simulated"
+    },
+    {
+      "id": 1014,
+      "to": "seller@demo.ru",
+      "subject": "Новая продажа",
+      "text": "Товар: Minecraft Java Edition\nСумма: 1234 ₽ зачислена на баланс.",
+      "type": "sale",
+      "date": "26.09.2026, 23:24:36",
+      "status": "simulated"
+    },
+    {
+      "id": 1018,
+      "to": "buyer@demo.ru",
+      "subject": "Заказ #1016 оплачен",
+      "text": "Спасибо за покупку!\n\nСостав:\n• Minecraft Java Edition — 1299 ₽\n• Minecraft Java Edition — 1299 ₽\n\nКэшбэк: 52 ₽",
+      "type": "order",
+      "date": "26.09.2026, 23:24:36",
+      "status": "simulated"
+    },
+    {
+      "id": 1019,
+      "to": "sviridovar8@gmail.com",
+      "subject": "Тестовое письмо",
+      "text": "Это тестовое сообщение от KeyHub.",
+      "type": "test",
+      "date": "27.09.2026, 16:14:26",
+      "status": "sent",
+      "resendId": "01a0e300-b311-7658-9d91-532bc62098fe"
+    },
+    {
+      "id": 1020,
+      "to": "luno1d1we@gmail.com",
+      "subject": "Тестовое письмо",
+      "text": "Это тестовое сообщение от KeyHub.",
+      "type": "test",
+      "date": "27.09.2026, 16:15:13",
+      "status": "error",
+      "error": "You can only send testing emails to your own email address (sviridovar8@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain."
+    }
+  ],
+  "events": [
+    {
+      "id": 1005,
+      "type": "view",
+      "productId": "e7b8f59ff022",
+      "userId": "u1",
+      "date": 1790454245603
+    },
+    {
+      "id": 1006,
+      "type": "cart",
+      "productId": "e7b8f59ff022",
+      "userId": "u1",
+      "date": 1790454247394
+    },
+    {
+      "id": 1007,
+      "type": "cart",
+      "productId": "e7b8f59ff022",
+      "userId": "u3",
+      "date": 1790454273520
+    },
+    {
+      "id": 1008,
+      "type": "cart",
+      "productId": "e7b8f59ff022",
+      "userId": "u3",
+      "date": 1790454274224
+    },
+    {
+      "id": 1009,
+      "type": "purchase",
+      "productId": "e7b8f59ff022",
+      "userId": "u3",
+      "date": 1790454276759
+    },
+    {
+      "id": 1010,
+      "type": "purchase",
+      "productId": "e7b8f59ff022",
+      "userId": "u3",
+      "date": 1790454276759
+    }
+  ],
+  "promos": [
+    {
+      "code": "START10",
+      "discount": 10,
+      "uses": 0,
+      "limit": 1000
+    },
+    {
+      "code": "SAVE20",
+      "discount": 20,
+      "uses": 0,
+      "limit": 100
+    }
+  ],
+  "settings": {
+    "commission": 0.05,
+    "refRate": 0.01,
+    "minPayout": 500,
+    "cashbackRate": 0.02,
+    "refBuyerRate": 0.01,
+    "emailEnabled": true
+  },
+  "sessions": {
+    "85cc3277834d": "u1"
+  },
+  "seq": 1021
+}
